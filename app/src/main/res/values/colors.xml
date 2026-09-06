@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg">#F5EFE3</color>
-    <color name="surface">#FFFDF8</color>
-    <color name="navy">#073B67</color>
-    <color name="navy_deep">#052D4D</color>
-    <color name="cobalt">#0B4F91</color>
-    <color name="teal">#0B6F66</color>
-    <color name="green">#0B7A53</color>
-    <color name="gold">#B88A35</color>
-    <color name="gold_light">#E5C878</color>
-    <color name="red">#B8222E</color>
-    <color name="card">#FFFCF6</color>
-    <color name="text">#102F48</color>
-    <color name="muted">#756D63</color>
-    <color name="divider">#D9C9A7</color>
-    <color name="cream">#FFF7E8</color>
+    <color name="bg">#03131F</color>
+    <color name="surface">#071F30</color>
+    <color name="surface_alt">#0A2B40</color>
+    <color name="navy">#EAF4FB</color>
+    <color name="navy_deep">#F7E7C0</color>
+    <color name="cobalt">#1478B8</color>
+    <color name="teal">#16A085</color>
+    <color name="green">#0D7A54</color>
+    <color name="gold">#D7A84B</color>
+    <color name="gold_light">#F4D58A</color>
+    <color name="red">#C1272D</color>
+    <color name="card">#E60A2639</color>
+    <color name="text">#F7F9FA</color>
+    <color name="muted">#AFC2CF</color>
+    <color name="divider">#36556A</color>
+    <color name="cream">#FFF4DA</color>
+    <color name="emerald">#0A654B</color>
 </resources>
