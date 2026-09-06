@@ -258,10 +258,10 @@ public class RadioService extends Service {
 
     private String t(String ar, String fr, String en) {
         SharedPreferences prefs = getSharedPreferences("radio_maroc_prefs", MODE_PRIVATE);
-        String lang = prefs.getString("lang", "ar");
+        String lang = prefs.getString("lang", "en");
         if ("fr".equals(lang)) return fr;
-        if ("en".equals(lang)) return en;
-        return ar;
+        if ("ar".equals(lang)) return ar;
+        return en;
     }
 
     private void createChannel() {
