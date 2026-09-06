@@ -8,10 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- Keep the mosque/city photograph readable without crushing the heritage colours. -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#52021220" />
+        android:background="#26051218" />
+
+    <!-- Moroccan visual identity: zellige, Atlas, Sahara, Amazigh and Andalusian cues. -->
+    <com.master.radiomaroc.MoroccanHeritageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/root"
