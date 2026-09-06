@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+def releaseKeystore = System.getenv('RADIO_MAROC_KEYSTORE_FILE')
+def releasePassword = System.getenv('RADIO_MAROC_KEYSTORE_PASSWORD')
+
 android {
     namespace 'com.master.radiomaroc'
     compileSdk 35
@@ -14,14 +17,33 @@ android {
         versionName "4.0"
     }
 
+    signingConfigs {
+        release {
+            if (releaseKeystore && releasePassword) {
+                storeFile file(releaseKeystore)
+                storePassword releasePassword
+                keyAlias 'radiomaroc'
+                keyPassword releasePassword
+                enableV1Signing true
+                enableV2Signing true
+                enableV3Signing true
+                enableV4Signing true
+            }
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
         }
         release {
+            debuggable false
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (releaseKeystore && releasePassword) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }
