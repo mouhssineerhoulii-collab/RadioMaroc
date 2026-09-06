@@ -3,9 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.master.radiomaroc.MoroccanHeritageView
+    <!-- الخلفية المختارة نفسها: صورة واحدة، بلا كولاج وبلا رسومات إضافية -->
+    <ImageView
+        android:id="@+id/moroccanBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:src="@drawable/moroccan_background"
+        android:scaleType="centerCrop"
+        android:contentDescription="Moroccan background" />
+
+    <!-- طبقة خفيفة فقط لتحسين قراءة النص مع إبقاء الصورة واضحة -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#14000000" />
 
     <LinearLayout
         android:id="@+id/root"
