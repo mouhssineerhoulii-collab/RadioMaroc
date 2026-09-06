@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp" android:height="800dp"
+    android:viewportWidth="360" android:viewportHeight="800">
+
+    <!-- Fine gold rails framing the photographic background -->
+    <path android:strokeColor="#66F4D58A" android:strokeWidth="1" android:fillColor="@android:color/transparent"
+        android:pathData="M10,0 L10,800 M350,0 L350,800"/>
+
+    <!-- Repeating Moroccan zellij diamonds on the left edge -->
+    <path android:fillColor="#2AF4D58A" android:pathData="M10,26 l10,10 l-10,10 l-10,-10z M10,78 l10,10 l-10,10 l-10,-10z M10,130 l10,10 l-10,10 l-10,-10z M10,182 l10,10 l-10,10 l-10,-10z M10,234 l10,10 l-10,10 l-10,-10z M10,286 l10,10 l-10,10 l-10,-10z M10,338 l10,10 l-10,10 l-10,-10z M10,390 l10,10 l-10,10 l-10,-10z M10,442 l10,10 l-10,10 l-10,-10z M10,494 l10,10 l-10,10 l-10,-10z M10,546 l10,10 l-10,10 l-10,-10z M10,598 l10,10 l-10,10 l-10,-10z M10,650 l10,10 l-10,10 l-10,-10z M10,702 l10,10 l-10,10 l-10,-10z M10,754 l10,10 l-10,10 l-10,-10z"/>
+    <path android:fillColor="#240E7C63" android:pathData="M10,39 l6,6 l-6,6 l-6,-6z M10,91 l6,6 l-6,6 l-6,-6z M10,143 l6,6 l-6,6 l-6,-6z M10,195 l6,6 l-6,6 l-6,-6z M10,247 l6,6 l-6,6 l-6,-6z M10,299 l6,6 l-6,6 l-6,-6z M10,351 l6,6 l-6,6 l-6,-6z M10,403 l6,6 l-6,6 l-6,-6z M10,455 l6,6 l-6,6 l-6,-6z M10,507 l6,6 l-6,6 l-6,-6z M10,559 l6,6 l-6,6 l-6,-6z M10,611 l6,6 l-6,6 l-6,-6z M10,663 l6,6 l-6,6 l-6,-6z M10,715 l6,6 l-6,6 l-6,-6z M10,767 l6,6 l-6,6 l-6,-6z"/>
+
+    <!-- Mirrored zellij diamonds on the right edge -->
+    <path android:fillColor="#2AF4D58A" android:pathData="M350,26 l10,10 l-10,10 l-10,-10z M350,78 l10,10 l-10,10 l-10,-10z M350,130 l10,10 l-10,10 l-10,-10z M350,182 l10,10 l-10,10 l-10,-10z M350,234 l10,10 l-10,10 l-10,-10z M350,286 l10,10 l-10,10 l-10,-10z M350,338 l10,10 l-10,10 l-10,-10z M350,390 l10,10 l-10,10 l-10,-10z M350,442 l10,10 l-10,10 l-10,-10z M350,494 l10,10 l-10,10 l-10,-10z M350,546 l10,10 l-10,10 l-10,-10z M350,598 l10,10 l-10,10 l-10,-10z M350,650 l10,10 l-10,10 l-10,-10z M350,702 l10,10 l-10,10 l-10,-10z M350,754 l10,10 l-10,10 l-10,-10z"/>
+    <path android:fillColor="#240E7C63" android:pathData="M350,39 l6,6 l-6,6 l-6,-6z M350,91 l6,6 l-6,6 l-6,-6z M350,143 l6,6 l-6,6 l-6,-6z M350,195 l6,6 l-6,6 l-6,-6z M350,247 l6,6 l-6,6 l-6,-6z M350,299 l6,6 l-6,6 l-6,-6z M350,351 l6,6 l-6,6 l-6,-6z M350,403 l6,6 l-6,6 l-6,-6z M350,455 l6,6 l-6,6 l-6,-6z M350,507 l6,6 l-6,6 l-6,-6z M350,559 l6,6 l-6,6 l-6,-6z M350,611 l6,6 l-6,6 l-6,-6z M350,663 l6,6 l-6,6 l-6,-6z M350,715 l6,6 l-6,6 l-6,-6z M350,767 l6,6 l-6,6 l-6,-6z"/>
+
+    <!-- Subtle horseshoe arch: Moroccan architectural cue -->
+    <path android:strokeColor="#22F4D58A" android:strokeWidth="2" android:fillColor="@android:color/transparent"
+        android:pathData="M40,0 L40,116 C40,78 68,52 100,52 C132,52 160,78 160,116 L160,156"/>
+
+    <!-- Brass lantern silhouette, deliberately faint so it never competes with the mosque -->
+    <path android:fillColor="#18F4C96B" android:pathData="M29,112 L41,112 L46,121 L46,162 L41,173 L29,173 L24,162 L24,121z"/>
+    <path android:fillColor="#22FFD77D" android:pathData="M32,122 H38 V159 H32z"/>
+
+    <!-- Bottom zellij carpet hint -->
+    <path android:strokeColor="#1EF4D58A" android:strokeWidth="1" android:fillColor="@android:color/transparent"
+        android:pathData="M0,744 L18,726 L36,744 L54,726 L72,744 L90,726 L108,744 L126,726 L144,744 L162,726 L180,744 L198,726 L216,744 L234,726 L252,744 L270,726 L288,744 L306,726 L324,744 L342,726 L360,744"/>
+    <path android:strokeColor="#180E7C63" android:strokeWidth="1" android:fillColor="@android:color/transparent"
+        android:pathData="M0,762 L18,744 L36,762 L54,744 L72,762 L90,744 L108,762 L126,744 L144,762 L162,744 L180,762 L198,744 L216,762 L234,744 L252,762 L270,744 L288,762 L306,744 L324,762 L342,744 L360,762"/>
+</vector>
