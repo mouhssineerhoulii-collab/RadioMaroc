@@ -2,7 +2,8 @@
     <item android:drawable="@drawable/night_scene" />
     <item android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="0dp">
         <shape>
-            <gradient android:startColor="#10000000" android:centerColor="#22000000" android:endColor="#8803131F" android:angle="270" />
+            <gradient android:startColor="#08000000" android:centerColor="#16000000" android:endColor="#6003131F" android:angle="270" />
         </shape>
     </item>
+    <item android:drawable="@drawable/zellij_culture_overlay" />
 </layer-list>
