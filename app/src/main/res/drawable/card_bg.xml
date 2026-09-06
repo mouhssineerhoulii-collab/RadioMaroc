@@ -1,16 +1,16 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="#5CD7A84B" />
-            <corners android:radius="18dp" />
+            <solid android:color="#22FFD98A"/>
+            <corners android:radius="22dp"/>
         </shape>
     </item>
     <item android:left="1dp" android:right="1dp" android:top="1dp" android:bottom="1dp">
         <shape>
-            <gradient android:startColor="#F00B2A3E" android:endColor="#F0061E2F" android:angle="270" />
-            <stroke android:width="1dp" android:color="#66F4D58A" />
-            <corners android:radius="17dp" />
-            <padding android:left="12dp" android:top="9dp" android:right="12dp" android:bottom="9dp" />
+            <gradient android:startColor="#99152F45" android:centerColor="#88102A40" android:endColor="#77152C40" android:angle="0"/>
+            <stroke android:width="1dp" android:color="#66FFD98A"/>
+            <corners android:radius="21dp"/>
+            <padding android:left="12dp" android:top="10dp" android:right="12dp" android:bottom="10dp"/>
         </shape>
     </item>
 </layer-list>
