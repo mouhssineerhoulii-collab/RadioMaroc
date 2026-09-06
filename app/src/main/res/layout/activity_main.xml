@@ -4,33 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg"
-    android:padding="12dp">
+    android:background="@color/bg">
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="112dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/header_bg"
-        android:padding="14dp"
-        android:layout_marginBottom="10dp">
+        android:background="@drawable/zellige_header"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:src="@drawable/ic_app"
+            android:contentDescription="Radio Maroc" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <TextView
                 android:id="@+id/appTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Radio Maroc"
-                android:textColor="@color/navy"
+                android:textColor="@color/navy_deep"
                 android:textStyle="bold"
-                android:textSize="26sp" />
+                android:textSize="27sp" />
 
             <TextView
                 android:id="@+id/appSubtitle"
@@ -39,135 +46,89 @@
                 android:text="إذاعات مغربية مباشرة"
                 android:textColor="@color/gold"
                 android:textStyle="bold"
-                android:textSize="13sp"
-                android:layout_marginTop="2dp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/settingsButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:gravity="center"
             android:text="⚙"
-            android:textSize="25sp"
-            android:textColor="@color/navy"
+            android:textSize="26sp"
+            android:textColor="@color/navy_deep"
             android:background="@drawable/card_bg" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/searchBox"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:singleLine="true"
-        android:hint="ابحث عن محطة"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:background="@drawable/card_bg"
-        android:textColor="@color/navy"
-        android:textColorHint="@color/muted"
-        android:layout_marginBottom="8dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="8dp">
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="10dp">
 
-        <Button
-            android:id="@+id/allButton"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_weight="1"
-            android:text="الكل"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/favoritesButton"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_weight="1"
-            android:text="المفضلة"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/viewButton"
-            android:layout_width="58dp"
-            android:layout_height="44dp"
-            android:text="▦"
-            android:textSize="20sp"
-            android:textAllCaps="false" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/playerBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/player_bg"
-        android:padding="12dp"
-        android:layout_marginBottom="8dp">
-
-        <ImageView
-            android:id="@+id/playerLogo"
-            android:layout_width="58dp"
-            android:layout_height="58dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_radio"
-            android:contentDescription="Radio logo" />
+        <EditText
+            android:id="@+id/searchBox"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:singleLine="true"
+            android:hint="🔎  ابحث عن محطة"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/card_bg"
+            android:textColor="@color/navy"
+            android:textColorHint="@color/muted" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
 
-            <TextView
-                android:id="@+id/nowPlayingLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="الآن على الهواء"
-                android:textColor="@color/gold"
-                android:textStyle="bold"
-                android:textSize="12sp" />
+            <Button
+                android:id="@+id/allButton"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:text="⌂  الكل"
+                android:textAllCaps="false" />
 
-            <TextView
-                android:id="@+id/nowPlaying"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="اختر محطة"
-                android:textColor="@color/navy"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:ellipsize="end"
-                android:maxLines="1" />
+            <Button
+                android:id="@+id/favoritesButton"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:text="★  المفضلة"
+                android:textAllCaps="false" />
 
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="متوقف"
-                android:textColor="@color/muted"
-                android:textSize="12sp" />
+            <Button
+                android:id="@+id/recentButton"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:text="◷  الأخيرة"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/viewButton"
+                android:layout_width="56dp"
+                android:layout_height="44dp"
+                android:text="▦"
+                android:textSize="20sp"
+                android:textAllCaps="false" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/stopButton"
-            android:layout_width="56dp"
-            android:layout_height="48dp"
-            android:text="■"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/stop_button" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="6dp">
 
         <GridLayout
             android:id="@+id/stationsGrid"
@@ -177,4 +138,119 @@
             android:alignmentMode="alignMargins"
             android:useDefaultMargins="false" />
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/playerBox"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/player_bg"
+        android:padding="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="6dp">
+
+        <ImageView
+            android:id="@+id/playerLogo"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_app"
+            android:contentDescription="Station" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/nowPlayingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="الآن على الهواء"
+                android:textColor="@color/gold_light"
+                android:textStyle="bold"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/nowPlaying"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="اختر محطة"
+                android:textColor="@color/cream"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="متوقف"
+                android:textColor="#D9E6EF"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/toggleButton"
+            android:layout_width="54dp"
+            android:layout_height="50dp"
+            android:text="▶"
+            android:textSize="20sp"
+            android:textColor="@color/navy_deep"
+            android:backgroundTint="@color/gold_light" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="■"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/red" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/surface"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <Button
+            android:id="@+id/homeNavButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="⌂\nالرئيسية"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/favoritesNavButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="★\nالمفضلة"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/settingsNavButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="⚙\nالإعدادات"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+    </LinearLayout>
 </LinearLayout>
