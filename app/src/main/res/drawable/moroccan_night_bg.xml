@@ -1,9 +1,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/night_scene" />
-    <item android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="0dp">
+
+    <!-- Balanced photographic treatment: preserve mosque while warming the cultural palette -->
+    <item>
         <shape>
-            <gradient android:startColor="#08000000" android:centerColor="#16000000" android:endColor="#6003131F" android:angle="270" />
+            <gradient android:startColor="#12000000" android:centerColor="#0A5A3518" android:endColor="#5203131F" android:angle="270" />
         </shape>
     </item>
+
+    <!-- Moroccan identity layer: zellij, Atlas/Amazigh, medina and Sahara cues -->
     <item android:drawable="@drawable/zellij_culture_overlay" />
 </layer-list>
