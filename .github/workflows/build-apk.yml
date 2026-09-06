@@ -36,45 +36,14 @@ jobs:
       - name: Build debug APK
         run: gradle assembleDebug --stacktrace
 
-      - name: Generate debug SHA-256
+      - name: Generate SHA-256
         run: sha256sum app/build/outputs/apk/debug/app-debug.apk > app/build/outputs/apk/debug/SHA256SUMS.txt
 
-      - name: Restore release signing key
-        if: ${{ secrets.RADIO_MAROC_KEYSTORE_B64 != '' && secrets.RADIO_MAROC_KEYSTORE_PASSWORD != '' }}
-        env:
-          KEYSTORE_B64: ${{ secrets.RADIO_MAROC_KEYSTORE_B64 }}
-        run: |
-          echo "$KEYSTORE_B64" | base64 --decode > "$GITHUB_WORKSPACE/radiomaroc-release.jks"
-          chmod 600 "$GITHUB_WORKSPACE/radiomaroc-release.jks"
-
-      - name: Build signed release APK
-        if: ${{ secrets.RADIO_MAROC_KEYSTORE_B64 != '' && secrets.RADIO_MAROC_KEYSTORE_PASSWORD != '' }}
-        env:
-          RADIO_MAROC_KEYSTORE_FILE: ${{ github.workspace }}/radiomaroc-release.jks
-          RADIO_MAROC_KEYSTORE_PASSWORD: ${{ secrets.RADIO_MAROC_KEYSTORE_PASSWORD }}
-        run: gradle assembleRelease --stacktrace
-
-      - name: Verify release signature
-        if: ${{ secrets.RADIO_MAROC_KEYSTORE_B64 != '' && secrets.RADIO_MAROC_KEYSTORE_PASSWORD != '' }}
-        run: |
-          apksigner verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
-          sha256sum app/build/outputs/apk/release/app-release.apk > app/build/outputs/apk/release/SHA256SUMS.txt
-
-      - name: Upload debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: RadioMaroc-Debug-APK
           path: |
             app/build/outputs/apk/debug/app-debug.apk
             app/build/outputs/apk/debug/SHA256SUMS.txt
-          if-no-files-found: error
-
-      - name: Upload signed release APK
-        if: ${{ secrets.RADIO_MAROC_KEYSTORE_B64 != '' && secrets.RADIO_MAROC_KEYSTORE_PASSWORD != '' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: RadioMaroc-Signed-Release-APK
-          path: |
-            app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/apk/release/SHA256SUMS.txt
           if-no-files-found: error
