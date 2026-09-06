@@ -10,9 +10,13 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.view.View;
 
-/** Single coherent Moroccan background chosen for the app. */
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
+/** Uses the selected Moroccan rooftop artwork as the single app background. */
 public class MoroccanHeritageView extends View {
     private final Paint imagePaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG);
     private final Paint overlayPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -25,8 +29,22 @@ public class MoroccanHeritageView extends View {
     public MoroccanHeritageView(Context context, AttributeSet attrs, int defStyleAttr) { super(context, attrs, defStyleAttr); init(); }
 
     private void init() {
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.moroccan_background);
+        background = loadEmbeddedBackground();
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+    }
+
+    private Bitmap loadEmbeddedBackground() {
+        try (InputStream in = getResources().openRawResource(R.raw.selected_background_base64);
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
+            String encoded = out.toString("UTF-8").replaceAll("\\s+", "");
+            byte[] imageBytes = Base64.decode(encoded, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        } catch (Exception ignored) {
+            return BitmapFactory.decodeResource(getResources(), R.drawable.moroccan_background);
+        }
     }
 
     @Override protected void onDraw(Canvas canvas) {
@@ -51,11 +69,10 @@ public class MoroccanHeritageView extends View {
         dst.set(0, 0, vw, vh);
         canvas.drawBitmap(background, src, dst, imagePaint);
 
-        // Mild readability treatment only; the Moroccan scene remains clearly visible through the glass UI.
         overlayPaint.setShader(new LinearGradient(
                 0, 0, 0, vh,
-                new int[]{0x26000000, 0x10000000, 0x18000000, 0x32000000},
-                new float[]{0f, .28f, .66f, 1f},
+                new int[]{0x16000000, 0x08000000, 0x10000000, 0x26000000},
+                new float[]{0f, .28f, .68f, 1f},
                 Shader.TileMode.CLAMP));
         canvas.drawRect(0, 0, vw, vh, overlayPaint);
         overlayPaint.setShader(null);
