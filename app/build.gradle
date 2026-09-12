@@ -45,7 +45,8 @@ android {
 }
 
 dependencies {
-    def media3_version = "1.11.0"
+    // Keep Media3 on a release compatible with the current Android 35 / AGP 8.7 toolchain.
+    def media3_version = "1.8.0"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
 }
