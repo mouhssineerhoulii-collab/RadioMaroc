@@ -51,7 +51,6 @@ public class Station {
         if (name == null) return;
         switch (name) {
             case "Radio Tanger Med":
-                // Tanger Med still exposes its live Marhaba service through legacy HTTP Icecast.
                 addUnique(urls, "http://radiotangermed-22.ice.infomaniak.ch/radiotangermed-22-128.mp3");
                 addUnique(urls, "http://radiotangermed-22.ice.infomaniak.ch/radiotangermed-22-192.mp3");
                 break;
@@ -63,6 +62,10 @@ public class Station {
             case "Medi 1 Latino": addUnique(urls, "http://live.medi1.com/Latino"); break;
             case "Medi 1 Jazz": addUnique(urls, "http://live.medi1.com/Jazz"); break;
             case "Medi 1 DJ": addUnique(urls, "http://live.medi1.com/Dj"); break;
+            case "Medi 1 Hits":
+                addUnique(urls, "https://cdn.live.easybroadcast.io/medi1radio/Hits");
+                addUnique(urls, "http://live.medi1.com/Hits");
+                break;
             default: break;
         }
     }
