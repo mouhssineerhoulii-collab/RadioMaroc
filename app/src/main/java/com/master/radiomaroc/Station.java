@@ -55,7 +55,8 @@ public class Station {
             || url.contains("aswat.ice.infomaniak.ch/")
             || url.contains("broadcast.infomaniak.ch/")
             || url.contains("broadcast.infomaniak.net/")
-            || url.contains("cdnamd-hls-globecast.akamaized.net/");
+            || url.contains("cdnamd-hls-globecast.akamaized.net/")
+            || url.contains("live.medi1.com/");
     }
 
     public boolean hasStream() { return !streamUrls.isEmpty(); }
