@@ -14,8 +14,6 @@ public final class Stations {
         s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information, culture et programmes généralistes","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://aswat.ice.infomaniak.ch/aswat-high.mp3","https://broadcast.ice.infomaniak.ch/aswat-high.mp3"),
         s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique et programmes marocains","Moroccan music and programs",H+"images/LogoCHADAFM.jpg","music","https://broadcast.infomaniak.ch/chadafm-high.mp3","https://broadcast.infomaniak.net/chadafm-high.mp3"),
         s("Medi 1 Radio","ميدي 1 - أخبار وبرامج عامة","Actualités et programmes généralistes","News and general programs",H+"images/Logo%20Medi1.jpg","news","https://cdn.live.easybroadcast.io/live/83_medi1radio-maghreb_8s9i4bn/playlist.m3u8"),
-        // Specialty Medi1 channels remain visible in the catalogue, but no stale direct URL is shipped.
-        // Their former live.medi1.com endpoints are inconsistent/offline across current independent checks.
         s("Medi 1 Tarab","ميدي 1 طرب - البث المباشر قيد التحقق","Tarab - flux en vérification","Tarab - stream under verification",H+"images/Logo%20Medi1.jpg","music"),
         s("Medi 1 Andalouse","ميدي 1 أندلسي - البث المباشر قيد التحقق","Andalouse - flux en vérification","Andalusian - stream under verification",H+"images/Logo%20Medi1.jpg","music"),
         s("Medi 1 Soufi","ميدي 1 صوفي ومديح - البث المباشر قيد التحقق","Soufi - flux en vérification","Sufi - stream under verification",H+"images/Logo%20Medi1.jpg","religious"),
@@ -44,6 +42,7 @@ public final class Stations {
         s("U Radio","يو راديو","U Radio","U Radio",H+"images/rn.jpg","general","https://uradio-aac.ice.infomaniak.ch/uradio.aac"),
         s("Radio Azawan","أزاوان","Radio Azawan","Amazigh music",H+"LOGO%20AZAWAN.PNG","amazigh","https://stream.zeno.fm/9y8y2h8w7hhvv"),
         s("Yabiladi Radio","يابلادي","Yabiladi Radio","Moroccan music",H+"images/rn.jpg","music","https://radio.yabiladi.com:8002/;stream.mp3","https://radio.yabiladi.com:8000/;stream.mp3"),
+        s("Yabiladi Chaabi Maroc","يابلادي الشعبي المغربي","Yabiladi Chaabi Maroc","Moroccan Chaabi music",H+"images/rn.jpg","music","https://radio.yabiladi.com:8102/;stream.mp3"),
         s("Marrakech Plus","مراكش بلوس","Marrakech Plus","Marrakech radio",H+"images/rn.jpg","regional","https://cast5.my-control-panel.com/proxy/marrakec/stream"),
         s("Zine Bladi","زين بلادي","Zine Bladi","Moroccan music",H+"images/rn.jpg","music","https://asmaki.ma:8000/radio.mp3"),
         s("Radio Casablanca","إذاعة الدار البيضاء الجهوية","Radio régionale de Casablanca","Casablanca regional radio",H+"images/rn.jpg","regional","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_casa/hls_snrt_radio/index.m3u8"),
