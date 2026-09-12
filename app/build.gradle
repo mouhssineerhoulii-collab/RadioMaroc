@@ -13,8 +13,8 @@ android {
         applicationId "com.master.radiomaroc"
         minSdk 24
         targetSdk 35
-        versionCode 18
-        versionName "5.5"
+        versionCode 19
+        versionName "5.6"
     }
 
     signingConfigs {
@@ -42,4 +42,10 @@ android {
             if (releaseKeystore && releasePassword) signingConfig signingConfigs.release
         }
     }
+}
+
+dependencies {
+    def media3_version = "1.11.0"
+    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
 }
