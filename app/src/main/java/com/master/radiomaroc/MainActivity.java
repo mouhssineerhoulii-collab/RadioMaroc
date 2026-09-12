@@ -146,11 +146,13 @@ public class MainActivity extends Activity {
             String searchable = (station.name + " " + station.subtitleAr + " " + station.subtitleFr + " " + station.subtitleEn).toLowerCase(Locale.ROOT);
             if (!q.isEmpty() && !searchable.contains(q)) continue;
 
+            final boolean available = station.hasStream();
             LinearLayout card = new LinearLayout(this);
             card.setOrientation(grid ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
             card.setGravity(Gravity.CENTER_VERTICAL);
             card.setPadding(dp(compact ? 8 : 11), dp(compact ? 7 : 10), dp(compact ? 8 : 11), dp(compact ? 7 : 10));
             card.setBackgroundResource(R.drawable.card_bg);
+            card.setAlpha(available ? 1f : .62f);
             GridLayout.LayoutParams cp = new GridLayout.LayoutParams();
             cp.setMargins(dp(4), dp(4), dp(4), dp(4));
             cp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -176,16 +178,19 @@ public class MainActivity extends Activity {
             name.setGravity(grid ? Gravity.CENTER : Gravity.START); name.setMaxLines(grid ? 2 : 1);
             TextView sub = new TextView(this); sub.setText(station.subtitle(lang)); sub.setTextColor(getColor(R.color.muted));
             sub.setTextSize(compact ? 10 : 12); sub.setGravity(grid ? Gravity.CENTER : Gravity.START); sub.setMaxLines(2);
-            if (station.streamUrl == null || station.streamUrl.isEmpty()) sub.setText(sub.getText() + "  •  " + t("البث الرقمي غير مؤكد", "Flux web non vérifié", "Web stream not verified"));
+            if (!available) sub.setText(sub.getText() + "  •  " + t("غير متاحة مؤقتًا", "Indisponible temporairement", "Temporarily unavailable"));
             info.addView(name); info.addView(sub);
 
             LinearLayout actions = new LinearLayout(this); actions.setGravity(Gravity.CENTER);
             TextView star = actionText(favorites.contains(station.name) ? "★" : "☆", R.color.gold);
             star.setOnClickListener(v -> toggleFavorite(station.name, star));
-            TextView play = actionText("▶", R.color.gold_light); play.setOnClickListener(v -> playStation(station));
+            TextView play = actionText(available ? "▶" : "—", R.color.gold_light);
+            play.setAlpha(available ? 1f : .35f);
+            if (available) play.setOnClickListener(v -> playStation(station));
             actions.addView(star); actions.addView(play);
             card.addView(logo); card.addView(info); card.addView(actions);
-            card.setOnClickListener(v -> playStation(station)); stationsGrid.addView(card);
+            if (available) card.setOnClickListener(v -> playStation(station));
+            stationsGrid.addView(card);
         }
     }
 
@@ -256,7 +261,7 @@ public class MainActivity extends Activity {
     }
 
     private void playStation(Station station) {
-        if (station.streamUrl == null || station.streamUrl.isEmpty()) { Toast.makeText(this, t("رابط البث الرقمي لهذه المحطة غير مؤكد بعد", "Le flux web de cette station n’est pas encore vérifié", "This station's web stream is not verified yet"), Toast.LENGTH_LONG).show(); return; }
+        if (!station.hasStream()) { Toast.makeText(this, t("هذه المحطة غير متاحة مؤقتًا", "Cette station est temporairement indisponible", "This station is temporarily unavailable"), Toast.LENGTH_LONG).show(); return; }
         currentStationName=station.name; nowPlaying.setText(station.name); status.setText(stateText("connecting"));
         LogoLoader.load(station.logoUrl, station.name, playerLogo, R.drawable.ic_app); addRecent(station.name);
         Intent i=new Intent(this,RadioService.class).setAction(RadioService.ACTION_PLAY); i.putExtra(RadioService.EXTRA_NAME,station.name); i.putExtra(RadioService.EXTRA_URL,station.streamUrl);
