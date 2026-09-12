@@ -3,86 +3,39 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- Moroccan glass medallion -->
+    <path android:fillColor="#071B2B" android:pathData="M54,3 A51,51 0 1,0 54,105 A51,51 0 1,0 54,3"/>
+    <path android:fillColor="#0C4250" android:pathData="M54,7 A47,47 0 1,0 54,101 A47,47 0 1,0 54,7"/>
+    <path android:strokeColor="#FFD56A" android:strokeWidth="2.4" android:fillColor="@android:color/transparent" android:pathData="M54,9 A45,45 0 1,0 54,99 A45,45 0 1,0 54,9"/>
 
-    <!-- ميدالية مغربية عميقة: قاعدة زجاجية داكنة -->
-    <path
-        android:fillColor="#071C26"
-        android:pathData="M54,3 A51,51 0 1,0 54,105 A51,51 0 1,0 54,3" />
-    <path
-        android:fillColor="#123B47"
-        android:pathData="M54,8 A46,46 0 1,0 54,100 A46,46 0 1,0 54,8" />
+    <!-- Zellij accents -->
+    <path android:fillColor="#E52B38" android:pathData="M19,26 L24,31 L19,36 L14,31 Z"/>
+    <path android:fillColor="#19A77B" android:pathData="M89,26 L94,31 L89,36 L84,31 Z"/>
+    <path android:fillColor="#18A6C9" android:pathData="M18,72 L23,77 L18,82 L13,77 Z"/>
+    <path android:fillColor="#FFD56A" android:pathData="M90,72 L95,77 L90,82 L85,77 Z"/>
 
-    <!-- حلقة ذهبية مستوحاة من النحاس المغربي -->
-    <path
-        android:strokeColor="#E4B65A"
-        android:strokeWidth="2.6"
-        android:fillColor="@android:color/transparent"
-        android:pathData="M54,10 A44,44 0 1,0 54,98 A44,44 0 1,0 54,10" />
+    <!-- Broadcast antenna and radio waves -->
+    <path android:strokeColor="#FFD56A" android:strokeWidth="3" android:strokeLineCap="round" android:fillColor="@android:color/transparent" android:pathData="M54,18 L54,35"/>
+    <path android:fillColor="#FFD56A" android:pathData="M54,14 A4,4 0 1,0 54,22 A4,4 0 1,0 54,14"/>
+    <path android:strokeColor="#F7E5A4" android:strokeWidth="2.5" android:strokeLineCap="round" android:fillColor="@android:color/transparent" android:pathData="M45,18 C39,23 39,29 45,34 M63,18 C69,23 69,29 63,34"/>
+    <path android:strokeColor="#18A6C9" android:strokeWidth="2.2" android:strokeLineCap="round" android:fillColor="@android:color/transparent" android:pathData="M39,13 C29,22 29,32 39,41 M69,13 C79,22 79,32 69,41"/>
 
-    <!-- نقاط زليجية هندسية خفيفة حول الشعار -->
-    <path android:fillColor="#E4B65A" android:pathData="M54,11 L59,16 L54,21 L49,16 Z" />
-    <path android:fillColor="#1C8E75" android:pathData="M20,29 L25,34 L20,39 L15,34 Z" />
-    <path android:fillColor="#D23A32" android:pathData="M88,29 L93,34 L88,39 L83,34 Z" />
-    <path android:fillColor="#2A79A8" android:pathData="M20,69 L25,74 L20,79 L15,74 Z" />
-    <path android:fillColor="#E4B65A" android:pathData="M88,69 L93,74 L88,79 L83,74 Z" />
+    <!-- Modern red radio -->
+    <path android:fillColor="#D92735" android:strokeColor="#FFD56A" android:strokeWidth="2.2" android:pathData="M19,38 Q19,33 24,33 L84,33 Q89,33 89,38 L89,77 Q89,82 84,82 L24,82 Q19,82 19,77 Z"/>
+    <path android:fillColor="#F8EBD0" android:pathData="M27,42 Q27,39 30,39 L78,39 Q81,39 81,42 L81,51 Q81,54 78,54 L30,54 Q27,54 27,51 Z"/>
+    <path android:strokeColor="#087A55" android:strokeWidth="1.7" android:strokeLineCap="round" android:fillColor="@android:color/transparent" android:pathData="M33,47 L75,47 M38,43 L38,51 M47,44 L47,50 M61,44 L61,50 M70,43 L70,51"/>
 
-    <!-- هوائي/صومعة مجردة: هوية مغربية من دون رسم تقليدي ثقيل -->
-    <path
-        android:fillColor="#E4B65A"
-        android:pathData="M49,22 L59,22 L59,29 L57,29 L57,33 L51,33 L51,29 L49,29 Z" />
-    <path
-        android:fillColor="#F5D98A"
-        android:pathData="M52,16 L56,16 L56,22 L52,22 Z" />
-    <path
-        android:fillColor="#F5D98A"
-        android:pathData="M53,12 L55,12 L55,16 L53,16 Z" />
+    <!-- Speaker -->
+    <path android:fillColor="#082D39" android:strokeColor="#F7E5A4" android:strokeWidth="1.5" android:pathData="M32,59 A10,10 0 1,0 32,79 A10,10 0 1,0 32,59"/>
+    <path android:strokeColor="#18A6C9" android:strokeWidth="1.4" android:fillColor="@android:color/transparent" android:pathData="M26,65 C30,61 34,61 38,65 M25,70 C30,75 35,75 39,70"/>
 
-    <!-- جسم الراديو الحديث -->
-    <path
-        android:fillColor="#B8242F"
-        android:strokeColor="#F6D98A"
-        android:strokeWidth="2.2"
-        android:pathData="M21,34 Q21,29 26,29 L82,29 Q87,29 87,34 L87,76 Q87,81 82,81 L26,81 Q21,81 21,76 Z" />
+    <!-- Moroccan star / tuning mark -->
+    <path android:strokeColor="#0A754E" android:strokeWidth="2.5" android:strokeLineJoin="round" android:fillColor="@android:color/transparent" android:pathData="M69,58 L72,64 L79,65 L74,70 L75,77 L69,73 L63,77 L64,70 L59,65 L66,64 Z"/>
 
-    <!-- شريط تردد زجاجي -->
-    <path
-        android:fillColor="#F1E7CF"
-        android:pathData="M29,37 Q29,34 32,34 L76,34 Q79,34 79,37 L79,47 Q79,50 76,50 L32,50 Q29,50 29,47 Z" />
-    <path
-        android:strokeColor="#0B6A46"
-        android:strokeWidth="1.8"
-        android:strokeLineCap="round"
-        android:fillColor="@android:color/transparent"
-        android:pathData="M35,42 L73,42 M40,39 L40,45 M48,39 L48,45 M60,39 L60,45 M68,39 L68,45" />
+    <!-- Compact RadioMaroc wordmark: RM remains readable at launcher size -->
+    <path android:fillColor="#FFD56A" android:pathData="M43,59 L46,59 L46,77 L43,77 Z M46,59 L52,59 Q57,59 57,64 Q57,68 53,69 L58,77 L54,77 L49,70 L46,70 L46,67 L52,67 Q54,67 54,64 Q54,62 52,62 L46,62 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M60,59 L64,59 L69,67 L74,59 L78,59 L78,77 L74,77 L74,65 L69,72 L64,65 L64,77 L60,77 Z"/>
 
-    <!-- الموجة الصوتية: قلب فكرة الراديو -->
-    <path
-        android:strokeColor="#F8E5A7"
-        android:strokeWidth="2.6"
-        android:strokeLineCap="round"
-        android:fillColor="@android:color/transparent"
-        android:pathData="M31,65 C35,55 39,75 43,65 C47,55 51,75 55,65 C59,55 63,75 67,65" />
-
-    <!-- النجمة المغربية مدمجة في واجهة الراديو -->
-    <path
-        android:strokeColor="#0B6A46"
-        android:strokeWidth="2.2"
-        android:strokeLineJoin="round"
-        android:fillColor="@android:color/transparent"
-        android:pathData="M73,56 L75.4,61.2 L81,61.8 L76.8,65.5 L78.1,71 L73,68.1 L67.9,71 L69.2,65.5 L65,61.8 L70.6,61.2 Z" />
-
-    <!-- قرص تحكم نحاسي -->
-    <path
-        android:fillColor="#E4B65A"
-        android:pathData="M34,54 A8,8 0 1,0 34,70 A8,8 0 1,0 34,54" />
-    <path
-        android:fillColor="#0E3C45"
-        android:pathData="M34,57 A5,5 0 1,0 34,67 A5,5 0 1,0 34,57" />
-    <path
-        android:fillColor="#F6D98A"
-        android:pathData="M33,58 L35,58 L35,63 L33,63 Z" />
-
-    <!-- قاعدة صغيرة تمنح الشعار توازناً بصرياً -->
-    <path android:fillColor="#E4B65A" android:pathData="M31,81 L43,81 L41,86 L33,86 Z" />
-    <path android:fillColor="#E4B65A" android:pathData="M65,81 L77,81 L75,86 L67,86 Z" />
+    <!-- Feet -->
+    <path android:fillColor="#FFD56A" android:pathData="M29,82 L42,82 L40,87 L31,87 Z M66,82 L79,82 L77,87 L68,87 Z"/>
 </vector>
