@@ -3,40 +3,48 @@ package com.master.radiomaroc;
 import android.app.*;
 import android.content.*;
 import android.graphics.*;
-import android.media.*;
-import android.media.session.*;
+import android.media.MediaMetadata;
+import android.media.session.MediaSession;
+import android.media.session.PlaybackState;
 import android.os.*;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import androidx.media3.common.AudioAttributes;
+import androidx.media3.common.C;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
+import androidx.media3.common.Player;
+import androidx.media3.exoplayer.ExoPlayer;
 
 public class RadioService extends Service {
  public static final String ACTION_PLAY="com.master.radiomaroc.PLAY",ACTION_TOGGLE="com.master.radiomaroc.TOGGLE",ACTION_STOP="com.master.radiomaroc.STOP",ACTION_QUERY="com.master.radiomaroc.QUERY",ACTION_SLEEP="com.master.radiomaroc.SLEEP",ACTION_NEXT="com.master.radiomaroc.NEXT",ACTION_PREVIOUS="com.master.radiomaroc.PREVIOUS";
  public static final String EXTRA_NAME="station_name",EXTRA_URL="station_url",EXTRA_MINUTES="minutes";
  private static final String CHANNEL_ID="radio_playback"; private static final int NOTIFICATION_ID=1001;
- private MediaPlayer player; private MediaSession mediaSession; private AudioManager audioManager; private final Handler handler=new Handler(Looper.getMainLooper()); private Runnable sleepRunnable,retryRunnable;
- private String currentName="",currentUrl="",state="stopped"; private boolean prepared=false,playing=false,resumeAfterFocusLoss=false; private Bitmap stationArt; private List<String> sources=Collections.emptyList(); private int sourceIndex=0,retryRound=0,generation=0;
- private final AudioManager.OnAudioFocusChangeListener focusListener=change->{
-  if(change==AudioManager.AUDIOFOCUS_LOSS){resumeAfterFocusLoss=false;pauseForFocus();abandonAudioFocus();}
-  else if(change==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT){resumeAfterFocusLoss=playing;pauseForFocus();}
-  else if(change==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK){if(player!=null&&playing)try{player.setVolume(.25f,.25f);}catch(Exception ignored){}}
-  else if(change==AudioManager.AUDIOFOCUS_GAIN){if(player!=null)try{player.setVolume(1f,1f);}catch(Exception ignored){}if(resumeAfterFocusLoss&&prepared&&!playing){try{player.start();playing=true;state="playing";}catch(Exception e){failSource(generation);}resumeAfterFocusLoss=false;updatePlaybackState();refreshNotification();broadcastState();}}
- };
+ private ExoPlayer player; private MediaSession mediaSession; private final Handler handler=new Handler(Looper.getMainLooper()); private Runnable sleepRunnable,retryRunnable;
+ private String currentName="",currentUrl="",state="stopped"; private boolean prepared=false,playing=false; private Bitmap stationArt; private List<String> sources=Collections.emptyList(); private int sourceIndex=0,retryRound=0,generation=0;
 
- @Override public void onCreate(){super.onCreate();audioManager=(AudioManager)getSystemService(AUDIO_SERVICE);createChannel();createMediaSession();}
+ @Override public void onCreate(){super.onCreate();createChannel();createMediaSession();}
  @Override public int onStartCommand(Intent i,int f,int id){if(i==null)return currentName.isEmpty()?START_NOT_STICKY:START_STICKY;String a=i.getAction();if(ACTION_PLAY.equals(a)){String n=i.getStringExtra(EXTRA_NAME),u=i.getStringExtra(EXTRA_URL);if(n!=null)playStation(n,u);}else if(ACTION_TOGGLE.equals(a))togglePlayback();else if(ACTION_STOP.equals(a))stopPlayback(true);else if(ACTION_NEXT.equals(a))changeStation(1);else if(ACTION_PREVIOUS.equals(a))changeStation(-1);else if(ACTION_QUERY.equals(a)){broadcastState();if(currentName.isEmpty())stopSelf(id);}else if(ACTION_SLEEP.equals(a))scheduleSleep(i.getIntExtra(EXTRA_MINUTES,0));return currentName.isEmpty()?START_NOT_STICKY:START_STICKY;}
 
- private boolean requestAudioFocus(){if(audioManager==null)return true;return audioManager.requestAudioFocus(focusListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)==AudioManager.AUDIOFOCUS_REQUEST_GRANTED;}
- private void abandonAudioFocus(){if(audioManager!=null)audioManager.abandonAudioFocus(focusListener);}
- private void pauseForFocus(){if(player!=null&&prepared&&playing)try{player.pause();playing=false;state="paused";}catch(Exception ignored){}updatePlaybackState();refreshNotification();broadcastState();}
  private void playStation(String name,String supplied){generation++;cancelRetry();currentName=name;stationArt=null;loadStationArt(name);Station s=Stations.find(name);ArrayList<String> list=new ArrayList<>();if(s!=null)list.addAll(s.streamUrls);if(supplied!=null&&!supplied.trim().isEmpty()&&!list.contains(supplied))list.add(0,supplied);sources=list;sourceIndex=0;retryRound=0;if(sources.isEmpty()){state="error";broadcastState();return;}startSource(generation);}
- private void startSource(int token){if(token!=generation||sources.isEmpty())return;if(!requestAudioFocus()){state="paused";broadcastState();return;}releasePlayer();prepared=false;playing=false;state=retryRound>0||sourceIndex>0?"reconnecting":"connecting";currentUrl=sources.get(sourceIndex);updateMetadata();startForeground(NOTIFICATION_ID,buildNotification());broadcastState();player=new MediaPlayer();player.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).setUsage(AudioAttributes.USAGE_MEDIA).build());player.setWakeMode(getApplicationContext(),PowerManager.PARTIAL_WAKE_LOCK);player.setOnPreparedListener(mp->{if(token!=generation)return;prepared=true;retryRound=0;try{mp.start();playing=true;state="playing";}catch(Exception e){failSource(token);}updatePlaybackState();refreshNotification();broadcastState();});player.setOnErrorListener((mp,w,e)->{failSource(token);return true;});try{player.setDataSource(currentUrl);player.prepareAsync();}catch(Exception e){failSource(token);}}
+ private void startSource(int token){if(token!=generation||sources.isEmpty())return;releasePlayer();prepared=false;playing=false;state=retryRound>0||sourceIndex>0?"reconnecting":"connecting";currentUrl=sources.get(sourceIndex);updateMetadata();startForeground(NOTIFICATION_ID,buildNotification());broadcastState();
+  AudioAttributes aa=new AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build();
+  player=new ExoPlayer.Builder(this).build(); player.setAudioAttributes(aa,true); player.setWakeMode(C.WAKE_MODE_NETWORK); player.setHandleAudioBecomingNoisy(true);
+  player.addListener(new Player.Listener(){
+   @Override public void onPlaybackStateChanged(int ps){if(token!=generation)return;if(ps==Player.STATE_READY){prepared=true;if(player!=null&&!player.isPlaying())player.play();}else if(ps==Player.STATE_BUFFERING){state=sourceIndex>0||retryRound>0?"reconnecting":"connecting";}else if(ps==Player.STATE_ENDED){failSource(token);}syncPlayerState();}
+   @Override public void onIsPlayingChanged(boolean p){if(token!=generation)return;playing=p;if(p){prepared=true;retryRound=0;state="playing";}else if(prepared&&player!=null&&player.getPlaybackState()==Player.STATE_READY)state="paused";updatePlaybackState();refreshNotification();broadcastState();}
+   @Override public void onPlayerError(PlaybackException error){if(token==generation)failSource(token);}
+  });
+  try{MediaItem item=MediaItem.fromUri(currentUrl);player.setMediaItem(item);player.prepare();player.play();}catch(Exception e){failSource(token);}
+ }
+ private void syncPlayerState(){if(player==null)return;int ps=player.getPlaybackState();if(ps==Player.STATE_BUFFERING)state=sourceIndex>0||retryRound>0?"reconnecting":"connecting";else if(ps==Player.STATE_READY&&player.isPlaying()){prepared=true;playing=true;state="playing";}updatePlaybackState();refreshNotification();broadcastState();}
  private void failSource(int token){if(token!=generation)return;prepared=false;playing=false;releasePlayer();sourceIndex++;if(sourceIndex>=sources.size()){sourceIndex=0;retryRound++;}if(retryRound<=2){state="reconnecting";refreshNotification();broadcastState();long delay=Math.min(8000L,1200L*(retryRound+1));retryRunnable=()->startSource(token);handler.postDelayed(retryRunnable,delay);}else{state="error";updatePlaybackState();refreshNotification();broadcastState();}}
  private void cancelRetry(){if(retryRunnable!=null){handler.removeCallbacks(retryRunnable);retryRunnable=null;}}
- private void togglePlayback(){if(player==null||!prepared){if(!sources.isEmpty()){retryRound=0;startSource(generation);}return;}try{if(playing){player.pause();playing=false;state="paused";resumeAfterFocusLoss=false;}else if(requestAudioFocus()){player.start();playing=true;state="playing";}updatePlaybackState();refreshNotification();broadcastState();}catch(Exception e){failSource(generation);}}
+ private void togglePlayback(){if(player==null){if(!sources.isEmpty()){retryRound=0;startSource(generation);}return;}try{if(player.isPlaying()){player.pause();playing=false;state="paused";}else{player.play();}updatePlaybackState();refreshNotification();broadcastState();}catch(Exception e){failSource(generation);}}
  private void changeStation(int d){if(Stations.ALL.isEmpty())return;int c=-1;for(int x=0;x<Stations.ALL.size();x++)if(Stations.ALL.get(x).name.equals(currentName)){c=x;break;}for(int step=1;step<=Stations.ALL.size();step++){int idx=(c+d*step)%Stations.ALL.size();if(idx<0)idx+=Stations.ALL.size();Station s=Stations.ALL.get(idx);if(s.hasStream()){playStation(s.name,s.streamUrl);return;}}}
- private void stopPlayback(boolean remove){generation++;cancelRetry();cancelSleep();resumeAfterFocusLoss=false;releasePlayer();abandonAudioFocus();prepared=false;playing=false;state="stopped";updatePlaybackState();broadcastState();if(remove){stopForeground(STOP_FOREGROUND_REMOVE);currentName="";currentUrl="";sources=Collections.emptyList();stationArt=null;stopSelf();}}
- private void releasePlayer(){if(player!=null){try{player.reset();}catch(Exception ignored){}try{player.release();}catch(Exception ignored){}player=null;}}
+ private void stopPlayback(boolean remove){generation++;cancelRetry();cancelSleep();releasePlayer();prepared=false;playing=false;state="stopped";updatePlaybackState();broadcastState();if(remove){stopForeground(STOP_FOREGROUND_REMOVE);currentName="";currentUrl="";sources=Collections.emptyList();stationArt=null;stopSelf();}}
+ private void releasePlayer(){if(player!=null){try{player.stop();player.clearMediaItems();player.release();}catch(Exception ignored){}player=null;}}
  private void scheduleSleep(int m){cancelSleep();if(m>0){sleepRunnable=()->stopPlayback(true);handler.postDelayed(sleepRunnable,m*60000L);}}
  private void cancelSleep(){if(sleepRunnable!=null){handler.removeCallbacks(sleepRunnable);sleepRunnable=null;}}
 
@@ -51,6 +59,6 @@ public class RadioService extends Service {
  private String t(String ar,String fr,String en){String l=getSharedPreferences("radio_maroc_prefs",MODE_PRIVATE).getString("lang","en");return "ar".equals(l)?ar:("fr".equals(l)?fr:en);}
  private void createChannel(){if(Build.VERSION.SDK_INT>=26){NotificationChannel c=new NotificationChannel(CHANNEL_ID,"Radio Maroc",NotificationManager.IMPORTANCE_LOW);c.setDescription("Background radio playback controls");c.setShowBadge(false);getSystemService(NotificationManager.class).createNotificationChannel(c);}}
  private void broadcastState(){Intent i=new Intent("com.master.radiomaroc.STATE");i.setPackage(getPackageName());i.putExtra("state",state);i.putExtra("playing",playing);i.putExtra("station",currentName);sendBroadcast(i);}
- @Override public void onDestroy(){generation++;cancelRetry();cancelSleep();releasePlayer();abandonAudioFocus();if(mediaSession!=null){mediaSession.setActive(false);mediaSession.release();}super.onDestroy();}
+ @Override public void onDestroy(){generation++;cancelRetry();cancelSleep();releasePlayer();if(mediaSession!=null){mediaSession.setActive(false);mediaSession.release();}super.onDestroy();}
  @Override public IBinder onBind(Intent i){return null;}
 }
