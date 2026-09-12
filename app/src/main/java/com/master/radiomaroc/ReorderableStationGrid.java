@@ -11,12 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /** GridLayout that lets users long-press a station card and drag it to a new position. */
 public class ReorderableStationGrid extends GridLayout {
     private static final String PREFS = "radio_maroc_prefs";
     private static final String ORDER = "station_order";
+    private static final String SEP = "\u001F";
     private boolean rebuilding;
 
     public ReorderableStationGrid(Context context) { super(context); }
@@ -88,27 +91,56 @@ public class ReorderableStationGrid extends GridLayout {
         return null;
     }
 
+    /** Save the visible reorder without destroying hidden stations when search/favorites filters are active. */
     private void saveOrder() {
-        List<String> names=new ArrayList<>();
+        List<String> visible=new ArrayList<>();
         for(int i=0;i<getChildCount();i++) {
             Object tag=getChildAt(i).getTag(R.id.stationsGrid);
-            if(tag instanceof String) names.add((String)tag);
+            if(tag instanceof String) visible.add((String)tag);
         }
+        if (visible.isEmpty()) return;
+
+        List<String> full=loadFullOrder();
+        Set<String> visibleSet=new LinkedHashSet<>(visible);
+        int next=0;
+        for(int i=0;i<full.size() && next<visible.size();i++) {
+            if(visibleSet.contains(full.get(i))) full.set(i, visible.get(next++));
+        }
+        while(next<visible.size()) full.add(visible.get(next++));
+        saveFullOrder(full);
+    }
+
+    private List<String> loadFullOrder() {
+        SharedPreferences p=getContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        String raw=p.getString(ORDER, "");
+        List<String> result=new ArrayList<>();
+        if(raw!=null && !raw.isEmpty()) {
+            for(String n:raw.split(SEP, -1)) if(!n.isEmpty() && !result.contains(n)) result.add(n);
+        }
+        // Always retain newly added stations and establish a complete canonical order on first use.
+        for(Station s:Stations.ALL) if(!result.contains(s.name)) result.add(s.name);
+        return result;
+    }
+
+    private void saveFullOrder(List<String> names) {
         getContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(ORDER, join(names)).apply();
     }
 
     private void applySavedOrder() {
-        String raw=getContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(ORDER, "");
-        if(raw==null || raw.isEmpty() || getChildCount()<2) return;
-        String[] order=raw.split("\\u001F", -1);
+        List<String> order=loadFullOrder();
+        if(getChildCount()<2) return;
         rebuilding=true;
-        for(int wanted=0;wanted<order.length;wanted++) {
-            for(int i=wanted;i<getChildCount();i++) {
+        int wantedIndex=0;
+        for(String wantedName:order) {
+            int found=-1;
+            for(int i=wantedIndex;i<getChildCount();i++) {
                 Object tag=getChildAt(i).getTag(R.id.stationsGrid);
-                if(order[wanted].equals(tag)) {
-                    if(i!=wanted) { View v=getChildAt(i); removeViewAt(i); addView(v,wanted); }
-                    break;
-                }
+                if(wantedName.equals(tag)) { found=i; break; }
+            }
+            if(found>=0) {
+                if(found!=wantedIndex) { View v=getChildAt(found); removeViewAt(found); addView(v,wantedIndex); }
+                wantedIndex++;
+                if(wantedIndex>=getChildCount()) break;
             }
         }
         rebuilding=false;
@@ -116,7 +148,7 @@ public class ReorderableStationGrid extends GridLayout {
 
     private String join(List<String> names) {
         StringBuilder b=new StringBuilder();
-        for(String n:names){ if(b.length()>0)b.append('\u001F'); b.append(n); }
+        for(String n:names){ if(b.length()>0)b.append(SEP); b.append(n); }
         return b.toString();
     }
 }
