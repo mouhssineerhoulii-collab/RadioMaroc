@@ -38,7 +38,7 @@ public class Station {
                 }
             }
         }
-        addMedi1Fallback(name, clean);
+        addStationFallback(name, clean);
         this.streamUrls = Collections.unmodifiableList(clean);
         this.streamUrl = clean.isEmpty() ? "" : clean.get(0);
     }
@@ -47,9 +47,14 @@ public class Station {
         if (url != null && !url.isEmpty() && !list.contains(url)) list.add(url);
     }
 
-    private static void addMedi1Fallback(String name, List<String> urls) {
+    private static void addStationFallback(String name, List<String> urls) {
         if (name == null) return;
         switch (name) {
+            case "Radio Tanger Med":
+                // Tanger Med still exposes its live Marhaba service through legacy HTTP Icecast.
+                addUnique(urls, "http://radiotangermed-22.ice.infomaniak.ch/radiotangermed-22-128.mp3");
+                addUnique(urls, "http://radiotangermed-22.ice.infomaniak.ch/radiotangermed-22-192.mp3");
+                break;
             case "Medi 1 Tarab": addUnique(urls, "http://live.medi1.com/Tarab"); break;
             case "Medi 1 Andalouse": addUnique(urls, "http://live.medi1.com/Andalouse"); break;
             case "Medi 1 Soufi": addUnique(urls, "http://live.medi1.com/Soufi"); break;
