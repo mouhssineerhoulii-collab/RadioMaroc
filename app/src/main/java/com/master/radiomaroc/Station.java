@@ -28,9 +28,34 @@ public class Station {
         this.logoUrl = logoUrl;
         this.category = category == null ? "general" : category;
         List<String> clean = new ArrayList<>();
-        if (urls != null) for (String u : urls) if (u != null && !u.trim().isEmpty() && !clean.contains(u.trim())) clean.add(u.trim());
+        if (urls != null) {
+            for (String raw : urls) {
+                if (raw == null || raw.trim().isEmpty()) continue;
+                String u = raw.trim();
+                addUnique(clean, u);
+                // Some Moroccan broadcasters still expose the reliable radio endpoint over HTTP.
+                // Add it only for explicitly allow-listed hosts; Android network security remains
+                // blocked for every other cleartext destination.
+                if (u.startsWith("https://") && isLegacyRadioHost(u)) {
+                    addUnique(clean, "http://" + u.substring("https://".length()));
+                }
+            }
+        }
         this.streamUrls = Collections.unmodifiableList(clean);
         this.streamUrl = clean.isEmpty() ? "" : clean.get(0);
+    }
+
+    private static void addUnique(List<String> list, String url) {
+        if (!list.contains(url)) list.add(url);
+    }
+
+    private static boolean isLegacyRadioHost(String url) {
+        return url.contains("radiotangermed-22.ice.infomaniak.ch/")
+            || url.contains("broadcast.ice.infomaniak.ch/")
+            || url.contains("aswat.ice.infomaniak.ch/")
+            || url.contains("broadcast.infomaniak.ch/")
+            || url.contains("broadcast.infomaniak.net/")
+            || url.contains("cdnamd-hls-globecast.akamaized.net/");
     }
 
     public boolean hasStream() { return !streamUrls.isEmpty(); }
