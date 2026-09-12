@@ -15,7 +15,9 @@ import androidx.media3.common.C;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
+import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 
 public class RadioService extends Service {
  public static final String ACTION_PLAY="com.master.radiomaroc.PLAY",ACTION_TOGGLE="com.master.radiomaroc.TOGGLE",ACTION_STOP="com.master.radiomaroc.STOP",ACTION_QUERY="com.master.radiomaroc.QUERY",ACTION_SLEEP="com.master.radiomaroc.SLEEP",ACTION_NEXT="com.master.radiomaroc.NEXT",ACTION_PREVIOUS="com.master.radiomaroc.PREVIOUS";
@@ -28,9 +30,24 @@ public class RadioService extends Service {
  @Override public int onStartCommand(Intent i,int f,int id){if(i==null)return currentName.isEmpty()?START_NOT_STICKY:START_STICKY;String a=i.getAction();if(ACTION_PLAY.equals(a)){String n=i.getStringExtra(EXTRA_NAME),u=i.getStringExtra(EXTRA_URL);if(n!=null)playStation(n,u);}else if(ACTION_TOGGLE.equals(a))togglePlayback();else if(ACTION_STOP.equals(a))stopPlayback(true);else if(ACTION_NEXT.equals(a))changeStation(1);else if(ACTION_PREVIOUS.equals(a))changeStation(-1);else if(ACTION_QUERY.equals(a)){broadcastState();if(currentName.isEmpty())stopSelf(id);}else if(ACTION_SLEEP.equals(a))scheduleSleep(i.getIntExtra(EXTRA_MINUTES,0));return currentName.isEmpty()?START_NOT_STICKY:START_STICKY;}
 
  private void playStation(String name,String supplied){generation++;cancelRetry();currentName=name;stationArt=null;loadStationArt(name);Station s=Stations.find(name);ArrayList<String> list=new ArrayList<>();if(s!=null)list.addAll(s.streamUrls);if(supplied!=null&&!supplied.trim().isEmpty()&&!list.contains(supplied))list.add(0,supplied);sources=list;sourceIndex=0;retryRound=0;if(sources.isEmpty()){state="error";broadcastState();return;}startSource(generation);}
+ private ExoPlayer buildPlayer(){
+  DefaultHttpDataSource.Factory http=new DefaultHttpDataSource.Factory()
+      .setUserAgent("Mozilla/5.0 (Linux; Android 16) AppleWebKit/537.36 Chrome/140 Mobile Safari/537.36 RadioMaroc/5.7")
+      .setAllowCrossProtocolRedirects(true)
+      .setConnectTimeoutMs(12000).setReadTimeoutMs(20000);
+  Map<String,String> headers=new HashMap<>();
+  headers.put("Accept","*/*");
+  headers.put("Accept-Language","ar,fr;q=0.9,en;q=0.8");
+  if(currentUrl.contains("globecast.akamaized.net")||currentName.startsWith("Radio ")||currentName.contains("محمد السادس")||"Chaîne Inter".equals(currentName)){
+   headers.put("Referer","https://snrtlive.ma/");
+   headers.put("Origin","https://snrtlive.ma");
+  }
+  http.setDefaultRequestProperties(headers);
+  return new ExoPlayer.Builder(this).setMediaSourceFactory(new DefaultMediaSourceFactory(http)).build();
+ }
  private void startSource(int token){if(token!=generation||sources.isEmpty())return;releasePlayer();prepared=false;playing=false;state=retryRound>0||sourceIndex>0?"reconnecting":"connecting";currentUrl=sources.get(sourceIndex);updateMetadata();startForeground(NOTIFICATION_ID,buildNotification());broadcastState();
   AudioAttributes aa=new AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build();
-  player=new ExoPlayer.Builder(this).build(); player.setAudioAttributes(aa,true); player.setWakeMode(C.WAKE_MODE_NETWORK); player.setHandleAudioBecomingNoisy(true);
+  player=buildPlayer(); player.setAudioAttributes(aa,true); player.setWakeMode(C.WAKE_MODE_NETWORK); player.setHandleAudioBecomingNoisy(true);
   player.addListener(new Player.Listener(){
    @Override public void onPlaybackStateChanged(int ps){if(token!=generation)return;if(ps==Player.STATE_READY){prepared=true;if(player!=null&&!player.isPlaying())player.play();}else if(ps==Player.STATE_BUFFERING){state=sourceIndex>0||retryRound>0?"reconnecting":"connecting";}else if(ps==Player.STATE_ENDED){failSource(token);}syncPlayerState();}
    @Override public void onIsPlayingChanged(boolean p){if(token!=generation)return;playing=p;if(p){prepared=true;retryRound=0;state="playing";}else if(prepared&&player!=null&&player.getPlaybackState()==Player.STATE_READY)state="paused";updatePlaybackState();refreshNotification();broadcastState();}
