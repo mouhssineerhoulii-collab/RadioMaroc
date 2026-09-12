@@ -1,299 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.master.radiomaroc.EmbeddedPhotoView
-        android:id="@+id/moroccanBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:contentDescription="Moroccan background" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#14000000" />
-
-    <LinearLayout
-        android:id="@+id/root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@android:color/transparent"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
-
-        <LinearLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="178dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="20dp">
-
-            <ImageView
-                android:layout_width="78dp"
-                android:layout_height="78dp"
-                android:src="@drawable/ic_app"
-                android:contentDescription="Radio Maroc" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingStart="12dp"
-                android:paddingEnd="8dp">
-
-                <TextView
-                    android:id="@+id/appTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Radio Maroc"
-                    android:textColor="#FFF5DC"
-                    android:textStyle="bold"
-                    android:textSize="34sp"
-                    android:fontFamily="serif"
-                    android:shadowColor="#CC000000"
-                    android:shadowDx="0"
-                    android:shadowDy="2"
-                    android:shadowRadius="6" />
-
-                <TextView
-                    android:id="@+id/appSubtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Moroccan voices, everywhere with you"
-                    android:textColor="#E4EDF4"
-                    android:textSize="13sp"
-                    android:shadowColor="#B0000000"
-                    android:shadowDx="0"
-                    android:shadowDy="1"
-                    android:shadowRadius="4"
-                    android:layout_marginTop="1dp" />
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.master.radiomaroc.EmbeddedPhotoView android:id="@+id/moroccanBackground" android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop" android:contentDescription="Moroccan background" />
+    <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="#14000000" />
+    <LinearLayout android:id="@+id/root" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@android:color/transparent" android:paddingStart="10dp" android:paddingEnd="10dp">
+        <LinearLayout android:id="@+id/header" android:layout_width="match_parent" android:layout_height="178dp" android:orientation="horizontal" android:gravity="center_vertical" android:paddingStart="10dp" android:paddingEnd="6dp" android:paddingTop="20dp">
+            <ImageView android:layout_width="78dp" android:layout_height="78dp" android:src="@drawable/ic_app" android:contentDescription="Radio Maroc" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:paddingStart="12dp" android:paddingEnd="8dp">
+                <TextView android:id="@+id/appTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Radio Maroc" android:textColor="#FFF5DC" android:textStyle="bold" android:textSize="34sp" android:fontFamily="serif" android:shadowColor="#CC000000" android:shadowDx="0" android:shadowDy="2" android:shadowRadius="6" />
+                <TextView android:id="@+id/appSubtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Moroccan voices, everywhere with you" android:textColor="#E4EDF4" android:textSize="13sp" android:shadowColor="#B0000000" android:shadowDx="0" android:shadowDy="1" android:shadowRadius="4" android:layout_marginTop="1dp" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/settingsButton"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
-                android:gravity="center"
-                android:text="⚙"
-                android:textSize="25sp"
-                android:textColor="#F8D990"
-                android:background="@drawable/play_circle" />
+            <TextView android:id="@+id/settingsButton" android:layout_width="54dp" android:layout_height="54dp" android:gravity="center" android:text="⚙" android:textSize="25sp" android:textColor="#F8D990" android:background="@drawable/play_circle" />
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/searchBox"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:singleLine="true"
-            android:hint="Search stations…"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="14dp"
-            android:background="@drawable/glass_pill"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#C7D4DE"
-            android:textSize="17sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
-
-            <Button
-                android:id="@+id/allButton"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="All"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textColor="#071A28"
-                android:background="@drawable/tab_active" />
-
-            <Button
-                android:id="@+id/favoritesButton"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Favorites"
-                android:textAllCaps="false"
-                android:textColor="#EEF4F7"
-                android:background="@drawable/tab_inactive" />
-
-            <Button
-                android:id="@+id/recentButton"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Recent"
-                android:textAllCaps="false"
-                android:textColor="#EEF4F7"
-                android:background="@drawable/tab_inactive" />
-
-            <Button
-                android:id="@+id/viewButton"
-                android:layout_width="60dp"
-                android:layout_height="48dp"
-                android:text="☰"
-                android:textSize="20sp"
-                android:textAllCaps="false"
-                android:textColor="#F6D17C"
-                android:background="@drawable/tab_inactive" />
+        <EditText android:id="@+id/searchBox" android:layout_width="match_parent" android:layout_height="60dp" android:singleLine="true" android:hint="Search stations…" android:paddingStart="22dp" android:paddingEnd="22dp" android:layout_marginStart="14dp" android:layout_marginEnd="14dp" android:background="@drawable/glass_pill" android:textColor="#FFFFFF" android:textColorHint="#C7D4DE" android:textSize="17sp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="54dp" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="10dp" android:paddingStart="12dp" android:paddingEnd="12dp">
+            <Button android:id="@+id/allButton" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="All" android:textAllCaps="false" android:textStyle="bold" android:textColor="#071A28" android:background="@drawable/tab_active" />
+            <Button android:id="@+id/favoritesButton" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="Favorites" android:textAllCaps="false" android:textColor="#EEF4F7" android:background="@drawable/tab_inactive" />
+            <Button android:id="@+id/recentButton" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="Recent" android:textAllCaps="false" android:textColor="#EEF4F7" android:background="@drawable/tab_inactive" />
+            <Button android:id="@+id/viewButton" android:layout_width="60dp" android:layout_height="48dp" android:text="☰" android:textSize="20sp" android:textAllCaps="false" android:textColor="#F6D17C" android:background="@drawable/tab_inactive" />
         </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true"
-            android:paddingStart="7dp"
-            android:paddingEnd="7dp"
-            android:paddingTop="4dp">
-
-            <GridLayout
-                android:id="@+id/stationsGrid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="1"
-                android:alignmentMode="alignMargins"
-                android:useDefaultMargins="false" />
+        <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true" android:paddingStart="7dp" android:paddingEnd="7dp" android:paddingTop="4dp">
+            <com.master.radiomaroc.ReorderableStationGrid android:id="@+id/stationsGrid" android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="1" android:alignmentMode="alignMargins" android:useDefaultMargins="false" />
         </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/playerBox"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/player_bg"
-            android:padding="10dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="7dp">
-
-            <ImageView
-                android:id="@+id/playerLogo"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_app"
-                android:background="@drawable/logo_bg"
-                android:contentDescription="Station" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="8dp">
-
-                <TextView
-                    android:id="@+id/nowPlayingLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NOW PLAYING"
-                    android:textColor="#F6D17C"
-                    android:textStyle="bold"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/nowPlaying"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Choose a station"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:ellipsize="end"
-                    android:maxLines="1" />
-
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Stopped"
-                    android:textColor="#C7D4DE"
-                    android:textSize="11sp" />
+        <LinearLayout android:id="@+id/playerBox" android:layout_width="match_parent" android:layout_height="90dp" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/player_bg" android:padding="10dp" android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:layout_marginTop="3dp" android:layout_marginBottom="7dp">
+            <ImageView android:id="@+id/playerLogo" android:layout_width="64dp" android:layout_height="64dp" android:scaleType="centerInside" android:src="@drawable/ic_app" android:background="@drawable/logo_bg" android:contentDescription="Station" />
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:paddingStart="10dp" android:paddingEnd="8dp">
+                <TextView android:id="@+id/nowPlayingLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NOW PLAYING" android:textColor="#F6D17C" android:textStyle="bold" android:textSize="11sp" />
+                <TextView android:id="@+id/nowPlaying" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose a station" android:textColor="#FFFFFF" android:textStyle="bold" android:textSize="18sp" android:ellipsize="end" android:maxLines="1" />
+                <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Stopped" android:textColor="#C7D4DE" android:textSize="11sp" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/toggleButton"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:text="▶"
-                android:textSize="20sp"
-                android:textColor="#F8D990"
-                android:background="@drawable/play_circle" />
-
-            <Button
-                android:id="@+id/stopButton"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:text="■"
-                android:textSize="16sp"
-                android:textColor="#FFFFFF"
-                android:background="@drawable/stop_glass" />
+            <Button android:id="@+id/toggleButton" android:layout_width="56dp" android:layout_height="56dp" android:text="▶" android:textSize="20sp" android:textColor="#F8D990" android:background="@drawable/play_circle" />
+            <Button android:id="@+id/stopButton" android:layout_width="52dp" android:layout_height="52dp" android:text="■" android:textSize="16sp" android:textColor="#FFFFFF" android:background="@drawable/stop_glass" />
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:background="@drawable/bottom_glass"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="6dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
-
-            <Button
-                android:id="@+id/homeNavButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="⌂\nHome"
-                android:textAllCaps="false"
-                android:textSize="12sp"
-                android:textColor="#F8D990"
-                android:backgroundTint="#00000000" />
-
-            <Button
-                android:id="@+id/favoritesNavButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="♡\nFavorites"
-                android:textAllCaps="false"
-                android:textSize="12sp"
-                android:textColor="#F4F7F9"
-                android:backgroundTint="#00000000" />
-
-            <Button
-                android:id="@+id/settingsNavButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="⚙\nSettings"
-                android:textAllCaps="false"
-                android:textSize="12sp"
-                android:textColor="#F4F7F9"
-                android:backgroundTint="#00000000" />
+        <LinearLayout android:id="@+id/bottomNav" android:layout_width="match_parent" android:layout_height="72dp" android:orientation="horizontal" android:gravity="center" android:background="@drawable/bottom_glass" android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:layout_marginBottom="6dp" android:paddingStart="8dp" android:paddingEnd="8dp">
+            <Button android:id="@+id/homeNavButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="⌂\nHome" android:textAllCaps="false" android:textSize="12sp" android:textColor="#F8D990" android:backgroundTint="#00000000" />
+            <Button android:id="@+id/favoritesNavButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="♡\nFavorites" android:textAllCaps="false" android:textSize="12sp" android:textColor="#F4F7F9" android:backgroundTint="#00000000" />
+            <Button android:id="@+id/settingsNavButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="⚙\nSettings" android:textAllCaps="false" android:textSize="12sp" android:textColor="#F4F7F9" android:backgroundTint="#00000000" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
