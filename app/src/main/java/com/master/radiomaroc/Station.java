@@ -33,20 +33,33 @@ public class Station {
                 if (raw == null || raw.trim().isEmpty()) continue;
                 String u = raw.trim();
                 addUnique(clean, u);
-                // Some Moroccan broadcasters still expose the reliable radio endpoint over HTTP.
-                // Add it only for explicitly allow-listed hosts; Android network security remains
-                // blocked for every other cleartext destination.
                 if (u.startsWith("https://") && isLegacyRadioHost(u)) {
                     addUnique(clean, "http://" + u.substring("https://".length()));
                 }
             }
         }
+        addMedi1Fallback(name, clean);
         this.streamUrls = Collections.unmodifiableList(clean);
         this.streamUrl = clean.isEmpty() ? "" : clean.get(0);
     }
 
     private static void addUnique(List<String> list, String url) {
-        if (!list.contains(url)) list.add(url);
+        if (url != null && !url.isEmpty() && !list.contains(url)) list.add(url);
+    }
+
+    private static void addMedi1Fallback(String name, List<String> urls) {
+        if (name == null) return;
+        switch (name) {
+            case "Medi 1 Tarab": addUnique(urls, "http://live.medi1.com/Tarab"); break;
+            case "Medi 1 Andalouse": addUnique(urls, "http://live.medi1.com/Andalouse"); break;
+            case "Medi 1 Soufi": addUnique(urls, "http://live.medi1.com/Soufi"); break;
+            case "Medi 1 Nayda": addUnique(urls, "http://live.medi1.com/Nayda"); break;
+            case "Medi 1 Lounge": addUnique(urls, "http://live.medi1.com/Lounge"); break;
+            case "Medi 1 Latino": addUnique(urls, "http://live.medi1.com/Latino"); break;
+            case "Medi 1 Jazz": addUnique(urls, "http://live.medi1.com/Jazz"); break;
+            case "Medi 1 DJ": addUnique(urls, "http://live.medi1.com/Dj"); break;
+            default: break;
+        }
     }
 
     private static boolean isLegacyRadioHost(String url) {
