@@ -13,8 +13,8 @@ android {
         applicationId "com.master.radiomaroc"
         minSdk 24
         targetSdk 35
-        versionCode 17
-        versionName "5.4"
+        versionCode 18
+        versionName "5.5"
     }
 
     signingConfigs {
@@ -33,17 +33,13 @@ android {
     }
 
     buildTypes {
-        debug {
-            debuggable true
-        }
+        debug { debuggable true }
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (releaseKeystore && releasePassword) {
-                signingConfig signingConfigs.release
-            }
+            if (releaseKeystore && releasePassword) signingConfig signingConfigs.release
         }
     }
 }
