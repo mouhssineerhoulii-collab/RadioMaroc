@@ -46,6 +46,10 @@ public class RadioService extends Service {
   return new ExoPlayer.Builder(this).setMediaSourceFactory(new DefaultMediaSourceFactory(http)).build();
  }
  private void startSource(int token){if(token!=generation||sources.isEmpty())return;releasePlayer();prepared=false;playing=false;state=retryRound>0||sourceIndex>0?"reconnecting":"connecting";currentUrl=sources.get(sourceIndex);updateMetadata();startForeground(NOTIFICATION_ID,buildNotification());broadcastState();
+  if(PlaylistResolver.shouldResolve(currentUrl)){final String playlist=currentUrl;new Thread(()->{try{String resolved=PlaylistResolver.resolve(playlist);handler.post(()->{if(token!=generation)return;currentUrl=resolved;startResolvedSource(token);});}catch(Exception e){handler.post(()->failSource(token));}}).start();return;}
+  startResolvedSource(token);
+ }
+ private void startResolvedSource(int token){if(token!=generation)return;
   AudioAttributes aa=new AudioAttributes.Builder().setUsage(C.USAGE_MEDIA).setContentType(C.AUDIO_CONTENT_TYPE_MUSIC).build();
   player=buildPlayer(); player.setAudioAttributes(aa,true); player.setWakeMode(C.WAKE_MODE_NETWORK); player.setHandleAudioBecomingNoisy(true);
   player.addListener(new Player.Listener(){
