@@ -17,16 +17,25 @@ public class EmbeddedPhotoView extends ImageView {
     private void init() {
         setScaleType(ScaleType.CENTER_CROP);
         try {
-            InputStream in = getResources().openRawResource(R.raw.moroccan_photo_b64);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            StringBuilder encoded = new StringBuilder();
+            int[] parts = new int[] {
+                    R.raw.moroccan_photo_1,
+                    R.raw.moroccan_photo_2,
+                    R.raw.moroccan_photo_3,
+                    R.raw.moroccan_photo_4
+            };
             byte[] buffer = new byte[8192];
-            int count;
-            while ((count = in.read(buffer)) != -1) out.write(buffer, 0, count);
-            in.close();
-            String encoded = out.toString("US-ASCII").replaceAll("\\s", "");
-            byte[] image = Base64.decode(encoded, Base64.DEFAULT);
+            for (int resId : parts) {
+                InputStream in = getResources().openRawResource(resId);
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                int count;
+                while ((count = in.read(buffer)) != -1) out.write(buffer, 0, count);
+                in.close();
+                encoded.append(out.toString("US-ASCII").replaceAll("\\s", ""));
+            }
+            byte[] image = Base64.decode(encoded.toString(), Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-            if (bitmap == null) throw new IllegalStateException("Unable to decode embedded Moroccan photo");
+            if (bitmap == null) throw new IllegalStateException("Unable to decode Moroccan background");
             setImageBitmap(bitmap);
         } catch (Exception e) {
             setBackgroundColor(0xFF071C26);
