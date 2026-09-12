@@ -9,10 +9,10 @@ import java.net.URL;
 public final class PlaylistResolver {
     private PlaylistResolver() {}
 
-    public static final class Result {
+    public static final class Resolved {
         public final String url;
         public final boolean hls;
-        Result(String url, boolean hls) { this.url = url; this.hls = hls; }
+        Resolved(String url, boolean hls) { this.url = url; this.hls = hls; }
     }
 
     public static boolean shouldResolve(String url) {
@@ -21,13 +21,12 @@ public final class PlaylistResolver {
         return u.contains("stream.bodkas.com/playlist") || u.endsWith(".m3u") || u.endsWith(".pls");
     }
 
-    /** Backwards-compatible URL-only resolver used by the playback service. */
     public static String resolve(String source) throws Exception {
         return resolveDetailed(source).url;
     }
 
     /** Resolves the URL and also reports hidden HLS manifests. */
-    public static Result resolveDetailed(String source) throws Exception {
+    public static Resolved resolveDetailed(String source) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(source).openConnection();
         c.setInstanceFollowRedirects(true);
         c.setConnectTimeout(10000);
@@ -41,8 +40,8 @@ public final class PlaylistResolver {
             String contentType = c.getContentType();
             if (contentType != null) {
                 String ct = contentType.toLowerCase();
-                if (ct.contains("mpegurl") || ct.contains("vnd.apple")) return new Result(finalUrl, true);
-                if (ct.startsWith("audio/") && !ct.contains("scpls")) return new Result(finalUrl, false);
+                if (ct.contains("mpegurl") || ct.contains("vnd.apple")) return new Resolved(finalUrl, true);
+                if (ct.startsWith("audio/") && !ct.contains("scpls")) return new Resolved(finalUrl, false);
             }
             try (BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream()))) {
                 String line;
@@ -50,11 +49,11 @@ public final class PlaylistResolver {
                 while ((line = r.readLine()) != null && lines++ < 200) {
                     line = line.trim();
                     if (line.isEmpty()) continue;
-                    if (line.startsWith("#EXT-X-")) return new Result(finalUrl, true);
+                    if (line.startsWith("#EXT-X-")) return new Resolved(finalUrl, true);
                     if (line.startsWith("#")) continue;
                     int eq = line.indexOf('=');
                     if (eq > 0 && line.substring(0, eq).toLowerCase().startsWith("file")) line = line.substring(eq + 1).trim();
-                    if (line.startsWith("http://") || line.startsWith("https://")) return new Result(line, line.toLowerCase().contains(".m3u8"));
+                    if (line.startsWith("http://") || line.startsWith("https://")) return new Resolved(line, line.toLowerCase().contains(".m3u8"));
                 }
             }
             throw new IllegalStateException("No stream URL in playlist");
