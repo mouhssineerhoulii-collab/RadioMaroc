@@ -21,7 +21,13 @@ public final class PlaylistResolver {
         return u.contains("stream.bodkas.com/playlist") || u.endsWith(".m3u") || u.endsWith(".pls");
     }
 
-    public static Result resolve(String source) throws Exception {
+    /** Backwards-compatible URL-only resolver used by the playback service. */
+    public static String resolve(String source) throws Exception {
+        return resolveDetailed(source).url;
+    }
+
+    /** Resolves the URL and also reports hidden HLS manifests. */
+    public static Result resolveDetailed(String source) throws Exception {
         HttpURLConnection c = (HttpURLConnection) new URL(source).openConnection();
         c.setInstanceFollowRedirects(true);
         c.setConnectTimeout(10000);
@@ -44,15 +50,11 @@ public final class PlaylistResolver {
                 while ((line = r.readLine()) != null && lines++ < 200) {
                     line = line.trim();
                     if (line.isEmpty()) continue;
-                    // A hidden endpoint may itself be an HLS manifest. Keep its final URL;
-                    // relative HLS segment/variant paths must be resolved by Media3, not here.
                     if (line.startsWith("#EXT-X-")) return new Result(finalUrl, true);
                     if (line.startsWith("#")) continue;
                     int eq = line.indexOf('=');
                     if (eq > 0 && line.substring(0, eq).toLowerCase().startsWith("file")) line = line.substring(eq + 1).trim();
-                    if (line.startsWith("http://") || line.startsWith("https://")) {
-                        return new Result(line, line.toLowerCase().contains(".m3u8"));
-                    }
+                    if (line.startsWith("http://") || line.startsWith("https://")) return new Result(line, line.toLowerCase().contains(".m3u8"));
                 }
             }
             throw new IllegalStateException("No stream URL in playlist");
