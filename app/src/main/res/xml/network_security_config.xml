@@ -15,5 +15,6 @@
         <domain includeSubdomains="true">broadcast.infomaniak.ch</domain>
         <domain includeSubdomains="true">broadcast.infomaniak.net</domain>
         <domain includeSubdomains="true">cdnamd-hls-globecast.akamaized.net</domain>
+        <domain includeSubdomains="true">live.medi1.com</domain>
     </domain-config>
 </network-security-config>
