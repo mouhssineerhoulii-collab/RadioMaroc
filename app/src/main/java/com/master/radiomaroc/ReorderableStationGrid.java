@@ -3,6 +3,9 @@ package com.master.radiomaroc;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.View;
@@ -15,12 +18,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-/** GridLayout that lets users long-press a station card and drag it to a new position. */
+/** GridLayout that lets users long-press a station card and reorder it vertically. */
 public class ReorderableStationGrid extends GridLayout {
     private static final String PREFS = "radio_maroc_prefs";
     private static final String ORDER = "station_order";
     private static final String SEP = "\u001F";
     private boolean rebuilding;
+    private View activeTarget;
 
     public ReorderableStationGrid(Context context) { super(context); }
     public ReorderableStationGrid(Context context, AttributeSet attrs) { super(context, attrs); }
@@ -37,8 +41,10 @@ public class ReorderableStationGrid extends GridLayout {
             if (name == null) return false;
             ClipData data = ClipData.newPlainText("station", name);
             v.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
-            v.startDragAndDrop(data, new View.DragShadowBuilder(v), v, 0);
-            v.setAlpha(.45f);
+            // A narrow custom shadow removes the impression that the whole card can float freely
+            // in every direction. The actual insertion position is determined only by vertical Y.
+            v.startDragAndDrop(data, new VerticalDragShadowBuilder(v), v, 0);
+            v.setAlpha(.35f);
             return true;
         });
         child.setOnDragListener((target, event) -> handleDrag(target, event));
@@ -50,18 +56,28 @@ public class ReorderableStationGrid extends GridLayout {
             case DragEvent.ACTION_DRAG_STARTED:
                 return event.getClipDescription() != null && event.getClipDescription().hasMimeType("text/plain");
             case DragEvent.ACTION_DRAG_ENTERED:
-                target.setScaleX(1.025f); target.setScaleY(1.025f); return true;
+            case DragEvent.ACTION_DRAG_LOCATION:
+                showInsertionTarget(target, event.getY());
+                return true;
             case DragEvent.ACTION_DRAG_EXITED:
-                target.setScaleX(1f); target.setScaleY(1f); return true;
+                clearInsertionTarget(target);
+                return true;
             case DragEvent.ACTION_DROP:
                 View dragged = (View) event.getLocalState();
+                clearInsertionTarget(target);
                 if (dragged == null || dragged == target || dragged.getParent() != this || target.getParent() != this) return false;
-                int from = indexOfChild(dragged), to = indexOfChild(target);
-                if (from < 0 || to < 0) return false;
+                int from = indexOfChild(dragged), targetIndex = indexOfChild(target);
+                if (from < 0 || targetIndex < 0) return false;
+
+                // Top half means insert before the target; bottom half means insert after it.
+                boolean after = event.getY() >= target.getHeight() / 2f;
+                int insertion = targetIndex + (after ? 1 : 0);
+
                 rebuilding = true;
                 removeView(dragged);
-                if (from < to) to--;
-                addView(dragged, Math.max(0, Math.min(to, getChildCount())));
+                if (from < insertion) insertion--;
+                insertion = Math.max(0, Math.min(insertion, getChildCount()));
+                addView(dragged, insertion);
                 rebuilding = false;
                 saveOrder();
                 requestLayout();
@@ -69,9 +85,56 @@ public class ReorderableStationGrid extends GridLayout {
             case DragEvent.ACTION_DRAG_ENDED:
                 View source = (View) event.getLocalState();
                 if (source != null) source.setAlpha(1f);
-                target.setScaleX(1f); target.setScaleY(1f);
+                clearAllInsertionTargets();
                 return true;
             default: return true;
+        }
+    }
+
+    /** Visually marks whether the dragged station will be inserted above or below this card. */
+    private void showInsertionTarget(View target, float localY) {
+        if (activeTarget != null && activeTarget != target) clearInsertionTarget(activeTarget);
+        activeTarget = target;
+        boolean below = localY >= target.getHeight() / 2f;
+        target.setTranslationX(0f); // never visually follow horizontal finger movement
+        target.setTranslationY(below ? -dp(5) : dp(5));
+        target.setScaleX(1f);
+        target.setScaleY(.985f);
+        target.setElevation(dp(2));
+    }
+
+    private void clearInsertionTarget(View target) {
+        if (target == null) return;
+        target.animate().translationX(0f).translationY(0f).scaleX(1f).scaleY(1f).setDuration(90).start();
+        target.setElevation(0f);
+        if (activeTarget == target) activeTarget = null;
+    }
+
+    private void clearAllInsertionTargets() {
+        for (int i = 0; i < getChildCount(); i++) clearInsertionTarget(getChildAt(i));
+        activeTarget = null;
+    }
+
+    private float dp(float value) {
+        return value * getResources().getDisplayMetrics().density;
+    }
+
+    /** Compact vertical-only drag preview; insertion feedback is shown on the destination card. */
+    private static final class VerticalDragShadowBuilder extends View.DragShadowBuilder {
+        VerticalDragShadowBuilder(View view) { super(view); }
+
+        @Override public void onProvideShadowMetrics(Point size, Point touch) {
+            View v = getView();
+            int width = Math.max(8, Math.min(v.getWidth() / 10, 28));
+            int height = Math.max(32, v.getHeight());
+            size.set(width, height);
+            touch.set(width / 2, height / 2);
+        }
+
+        @Override public void onDrawShadow(Canvas canvas) {
+            ColorDrawable marker = new ColorDrawable(0xCCB71C1C);
+            marker.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            marker.draw(canvas);
         }
     }
 
@@ -117,7 +180,6 @@ public class ReorderableStationGrid extends GridLayout {
         if(raw!=null && !raw.isEmpty()) {
             for(String n:raw.split(SEP, -1)) if(!n.isEmpty() && !result.contains(n)) result.add(n);
         }
-        // Always retain newly added stations and establish a complete canonical order on first use.
         for(Station s:Stations.ALL) if(!result.contains(s.name)) result.add(s.name);
         return result;
     }
