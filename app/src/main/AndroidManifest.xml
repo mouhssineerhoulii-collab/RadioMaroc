@@ -9,8 +9,9 @@
     <application
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:icon="@drawable/ic_app"
-        android:roundIcon="@drawable/ic_app"
+        android:icon="@drawable/ic_radio"
+        android:roundIcon="@drawable/ic_radio"
+        android:logo="@drawable/ic_radio"
         android:label="راديو المغرب"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -20,6 +21,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:icon="@drawable/ic_radio"
+            android:label="راديو المغرب"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
