@@ -1,18 +1,27 @@
-# Security Policy
+# Radio Maroc — Security & Privacy Model
 
-RadioMaroc is intentionally small and auditable.
+Radio Maroc is intentionally small, open and auditable. The project aims to provide radio playback without advertising, profiling or unnecessary collection of user information.
 
 ## Security guarantees of the official source
+
 - No advertising SDKs.
-- No analytics SDKs.
-- No tracking SDKs.
-- No account system or telemetry endpoint.
-- No contacts, SMS, microphone, camera, location, storage, accessibility, VPN, device-admin, package-install, or overlay permissions.
-- Station artwork is never bundled from third parties; it is requested from broadcaster websites and falls back to a locally generated badge.
-- Cleartext HTTP is blocked globally except for explicitly listed legacy stream hosts.
-- GitHub Actions builds with read-only repository permissions and publishes a SHA-256 checksum beside the APK.
+- No analytics, telemetry or behavioural-tracking SDKs.
+- No account system and no user-profile database.
+- No contacts, SMS, microphone, camera, location, storage, accessibility, VPN, device-admin, package-install or overlay permissions.
+- Android application backup is disabled.
+- Internal Activity/Service components are not exported; only the launcher Activity is exported as required by Android.
+- Cleartext HTTP is denied globally. A short explicit allow-list exists only for legacy radio hosts that still publish their public audio stream over HTTP.
+- HTTPS is used for the app-owned remote stream directory and public EasyBroadcast token resolution.
+- Local preferences are limited to functions such as language, favourites and display mode.
+- Stream addresses and resolver logic remain visible in the source tree for independent review.
+- GitHub Actions builds publish an APK and SHA-256 checksum so releases can be verified.
 
-## Verifying an APK
-Use the APK created by the official GitHub Actions workflow and compare its SHA-256 with `SHA256SUMS.txt` from the same build artifact.
+## Network connections
 
-Open source cannot make malicious modification mathematically impossible. It makes unauthorized changes reviewable and detectable. A third-party APK should not be trusted merely because it uses the RadioMaroc name or icon.
+Internet access is used only for functionality visible to the user: retrieving radio audio, station artwork, the public stream directory, and short-lived public EasyBroadcast stream tokens required by some SNRT streams. Radio Maroc does not operate an analytics or advertising endpoint.
+
+## Independent verification
+
+Security researchers are encouraged to inspect the source, review Android permissions and network destinations, build the application independently, and compare release hashes. Open source does not make malicious modification mathematically impossible; it makes behaviour inspectable and unauthorized changes easier to detect.
+
+A third-party APK should not be trusted merely because it uses the Radio Maroc name or icon. Verify its origin and SHA-256 when a checksum is provided.
