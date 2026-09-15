@@ -7,7 +7,7 @@
         <item name="android:navigationBarColor">#03131F</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/moroccan_night_bg</item>
+        <item name="android:windowBackground">#07131B</item>
         <item name="android:colorAccent">@color/gold_light</item>
     </style>
 </resources>
