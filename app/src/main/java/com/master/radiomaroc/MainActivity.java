@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
@@ -32,12 +33,14 @@ public class MainActivity extends Activity {
     private final List<String> recent = new ArrayList<>();
     private String currentStationName = "";
     private boolean currentPlaying = false;
+    private String currentState = "stopped";
 
     private final BroadcastReceiver stateReceiver = new BroadcastReceiver() {
         @Override public void onReceive(Context context, Intent intent) {
             String state = intent.getStringExtra("state");
             String stationName = intent.getStringExtra("station");
             currentPlaying = intent.getBooleanExtra("playing", false);
+            if (state != null) currentState = state;
             if (stationName != null && !stationName.isEmpty()) {
                 currentStationName = stationName; nowPlaying.setText(stationName);
                 Station s = findStation(stationName);
@@ -45,6 +48,7 @@ public class MainActivity extends Activity {
             }
             if (state != null) status.setText(stateText(state));
             toggleButton.setText(currentPlaying ? "Ⅱ" : "▶");
+            buildStationList(searchBox.getText().toString());
         }
     };
 
@@ -54,6 +58,7 @@ public class MainActivity extends Activity {
         lang = prefs.getString("lang", "en"); viewMode = prefs.getString("view", "list");
         favorites = new HashSet<>(prefs.getStringSet("favorites", new HashSet<>()));
         loadRecent(); bindViews(); applyLanguage(); requestNotificationPermission(); buildStationList("");
+        findViewById(R.id.playerBox).setVisibility(View.GONE);
         stopButton.setOnClickListener(v -> stopRadio()); toggleButton.setOnClickListener(v -> toggleRadio());
         allButton.setOnClickListener(v -> setFilter("all")); favoritesButton.setOnClickListener(v -> setFilter("favorites"));
         recentButton.setOnClickListener(v -> setFilter("recent")); viewButton.setOnClickListener(v -> cycleViewMode());
@@ -109,7 +114,11 @@ public class MainActivity extends Activity {
             LinearLayout info=new LinearLayout(this);info.setOrientation(LinearLayout.VERTICAL);info.setGravity(grid?Gravity.CENTER_HORIZONTAL:Gravity.CENTER_VERTICAL);info.setLayoutParams(new LinearLayout.LayoutParams(grid?ViewGroup.LayoutParams.MATCH_PARENT:0,ViewGroup.LayoutParams.WRAP_CONTENT,grid?0:1f));
             TextView name=new TextView(this);name.setText(station.name);name.setTypeface(Typeface.DEFAULT,Typeface.BOLD);name.setTextSize(compact?14:(grid?16:17));name.setTextColor(getColor(R.color.text));name.setGravity(grid?Gravity.CENTER:Gravity.START);name.setMaxLines(grid?2:1);
             TextView sub=new TextView(this);sub.setText(station.subtitle(lang));sub.setTextColor(getColor(R.color.muted));sub.setTextSize(compact?10:12);sub.setGravity(grid?Gravity.CENTER:Gravity.START);sub.setMaxLines(2);if(!available)sub.setText(sub.getText()+"  •  "+t("غير متاحة مؤقتًا","Indisponible temporairement","Temporarily unavailable"));info.addView(name);info.addView(sub);
-            LinearLayout actions=new LinearLayout(this);actions.setGravity(Gravity.CENTER);TextView star=actionText(favorites.contains(station.name)?"★":"☆",R.color.gold);star.setOnClickListener(v->toggleFavorite(station.name,star));TextView play=actionText(available?"▶":"—",R.color.gold_light);play.setAlpha(available?1f:.35f);if(available)play.setOnClickListener(v->playStation(station));actions.addView(star);actions.addView(play);card.addView(logo);card.addView(info);card.addView(actions);if(available)card.setOnClickListener(v->playStation(station));stationsGrid.addView(card);
+            LinearLayout actions=new LinearLayout(this);actions.setGravity(Gravity.CENTER);
+            TextView star=actionText(favorites.contains(station.name)?"★":"☆",R.color.gold);star.setContentDescription(t("المفضلة","Favori","Favorite"));star.setOnClickListener(v->toggleFavorite(station.name,star));
+            boolean selected=station.name.equals(currentStationName);TextView play=actionText(available?(selected&&currentPlaying?"Ⅱ":"▶"):"—",R.color.gold_light);play.setContentDescription(selected&&currentPlaying?t("إيقاف مؤقت","Pause","Pause"):t("تشغيل","Lecture","Play"));play.setAlpha(available?1f:.35f);if(available)play.setOnClickListener(v->{if(station.name.equals(currentStationName))toggleRadio();else playStation(station);});
+            TextView stop=actionText("■",R.color.text);stop.setContentDescription(t("إيقاف","Arrêter","Stop"));stop.setAlpha(selected?.95f:.28f);stop.setEnabled(selected);if(selected)stop.setOnClickListener(v->stopRadio());
+            actions.addView(star);actions.addView(play);actions.addView(stop);card.addView(logo);card.addView(info);card.addView(actions);stationsGrid.addView(card);
         }
     }
 
@@ -120,8 +129,8 @@ public class MainActivity extends Activity {
     private void updateModeButtons(){allButton.setAlpha("all".equals(filterMode)?1f:.55f);favoritesButton.setAlpha("favorites".equals(filterMode)?1f:.55f);recentButton.setAlpha("recent".equals(filterMode)?1f:.55f);}
 
     private void showSettings(){
-        String[] items={"🌐  "+t("اللغة","Langue","Language"),"▦  "+t("طريقة العرض","Mode d’affichage","Display mode"),"◷  "+t("مؤقت النوم","Minuterie","Sleep timer"),"ⓘ  "+t("حول البرنامج","À propos","About"),"🔒  "+t("الخصوصية والأمان","Confidentialité et sécurité","Privacy & security")};
-        new AlertDialog.Builder(this).setTitle("⚙  "+t("الإعدادات","Paramètres","Settings")).setItems(items,(d,w)->{if(w==0)showLanguageDialog();else if(w==1)showViewDialog();else if(w==2)showSleepDialog();else if(w==3)showAboutDialog();else showPrivacyDialog();}).setNegativeButton(t("إغلاق","Fermer","Close"),null).show();
+        String[] items={"🚘  "+t("وضعية السياقة","Mode conduite","Driving mode"),"🌐  "+t("اللغة","Langue","Language"),"▦  "+t("طريقة العرض","Mode d’affichage","Display mode"),"◷  "+t("مؤقت النوم","Minuterie","Sleep timer"),"ⓘ  "+t("حول البرنامج","À propos","About"),"🔒  "+t("الخصوصية والأمان","Confidentialité et sécurité","Privacy & security")};
+        new AlertDialog.Builder(this).setTitle("⚙  "+t("الإعدادات","Paramètres","Settings")).setItems(items,(d,w)->{if(w==0)startActivity(new Intent(this,DriverActivity.class));else if(w==1)showLanguageDialog();else if(w==2)showViewDialog();else if(w==3)showSleepDialog();else if(w==4)showAboutDialog();else showPrivacyDialog();}).setNegativeButton(t("إغلاق","Fermer","Close"),null).show();
     }
     private void showLanguageDialog(){String[] options={"English","Français","العربية"};int checked="en".equals(lang)?0:("fr".equals(lang)?1:2);new AlertDialog.Builder(this).setTitle("🌐  "+t("اللغة","Langue","Language")).setSingleChoiceItems(options,checked,(d,w)->{lang=w==0?"en":(w==1?"fr":"ar");prefs.edit().putString("lang",lang).apply();d.dismiss();recreate();}).show();}
     private void showViewDialog(){String[] options={t("قائمة","Liste","List"),t("قائمة مدمجة","Liste compacte","Compact"),t("صور مصغرة","Vignettes","Thumbnails")};int checked="list".equals(viewMode)?0:("compact".equals(viewMode)?1:2);new AlertDialog.Builder(this).setTitle(t("طريقة العرض","Mode d’affichage","Display mode")).setSingleChoiceItems(options,checked,(d,w)->{viewMode=w==0?"list":(w==1?"compact":"grid");prefs.edit().putString("view",viewMode).apply();d.dismiss();updateViewIcon();buildStationList(searchBox.getText().toString());}).show();}
@@ -139,7 +148,7 @@ public class MainActivity extends Activity {
 
     private void playStation(Station station){if(!station.hasStream()){Toast.makeText(this,t("هذه المحطة غير متاحة مؤقتًا","Cette station est temporairement indisponible","This station is temporarily unavailable"),Toast.LENGTH_LONG).show();return;}currentStationName=station.name;nowPlaying.setText(station.name);status.setText(stateText("connecting"));LogoLoader.load(station.logoUrl,station.name,playerLogo,R.drawable.ic_app);addRecent(station.name);Intent i=new Intent(this,RadioService.class).setAction(RadioService.ACTION_PLAY);i.putExtra(RadioService.EXTRA_NAME,station.name);i.putExtra(RadioService.EXTRA_URL,station.streamUrl);if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)startForegroundService(i);else startService(i);}
     private void toggleRadio(){startService(new Intent(this,RadioService.class).setAction(RadioService.ACTION_TOGGLE));}
-    private void stopRadio(){startService(new Intent(this,RadioService.class).setAction(RadioService.ACTION_STOP));currentPlaying=false;toggleButton.setText("▶");status.setText(stateText("stopped"));}
+    private void stopRadio(){startService(new Intent(this,RadioService.class).setAction(RadioService.ACTION_STOP));currentPlaying=false;currentState="stopped";currentStationName="";toggleButton.setText("▶");status.setText(stateText("stopped"));buildStationList(searchBox.getText().toString());}
     private Station findStation(String n){for(Station s:Stations.ALL)if(s.name.equals(n))return s;return null;}
     private void addRecent(String n){recent.remove(n);recent.add(0,n);while(recent.size()>10)recent.remove(recent.size()-1);prefs.edit().putString("recent",String.join("\u001F",recent)).apply();}
     private void loadRecent(){String r=prefs.getString("recent","");if(r!=null&&!r.isEmpty())recent.addAll(Arrays.asList(r.split("\\u001F")));}
