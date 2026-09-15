@@ -8,44 +8,20 @@ def releasePassword = System.getenv('RADIO_MAROC_KEYSTORE_PASSWORD')
 android {
     namespace 'com.master.radiomaroc'
     compileSdk 35
-
     defaultConfig {
         applicationId "com.master.radiomaroc"
         minSdk 24
         targetSdk 35
-        versionCode 23
-        versionName "6.3"
+        versionCode 24
+        versionName "6.4"
     }
-
-    signingConfigs {
-        release {
-            if (releaseKeystore && releasePassword) {
-                storeFile file(releaseKeystore)
-                storePassword releasePassword
-                keyAlias 'radiomaroc'
-                keyPassword releasePassword
-                enableV1Signing true
-                enableV2Signing true
-                enableV3Signing true
-                enableV4Signing true
-            }
-        }
-    }
-
+    signingConfigs { release { if (releaseKeystore && releasePassword) { storeFile file(releaseKeystore); storePassword releasePassword; keyAlias 'radiomaroc'; keyPassword releasePassword; enableV1Signing true; enableV2Signing true; enableV3Signing true; enableV4Signing true } } }
     buildTypes {
         debug { debuggable true }
-        release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (releaseKeystore && releasePassword) signingConfig signingConfigs.release
-        }
+        release { debuggable false; minifyEnabled true; shrinkResources true; proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'; if (releaseKeystore && releasePassword) signingConfig signingConfigs.release }
     }
 }
-
 dependencies {
-    // Keep Media3 on a release compatible with the current Android 35 / AGP 8.7 toolchain.
     def media3_version = "1.8.0"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
