@@ -13,8 +13,8 @@ android {
         applicationId "com.master.radiomaroc"
         minSdk 24
         targetSdk 35
-        versionCode 22
-        versionName "6.2"
+        versionCode 23
+        versionName "6.3"
     }
 
     signingConfigs {
