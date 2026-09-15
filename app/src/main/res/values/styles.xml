@@ -11,6 +11,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/moroccan_background</item>
         <item name="android:colorAccent">@color/gold_light</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
     </style>
     <style name="CategorySpinnerPopupTheme" parent="android:style/Theme.Material.NoActionBar">
         <item name="android:fontFamily">sans</item>
