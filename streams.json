@@ -1,14 +1,18 @@
 {
   "إذاعة محمد السادس للقرآن الكريم": [
-    "https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?"
+    "https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?",
+    "https://cdn.live.easybroadcast.io/live/radio_med_VI/chunks.m3u8?"
   ],
   "Radio Nationale": [
+    "https://cdn.live.easybroadcast.io/live/radio_nationale/chunks.m3u8?",
     "https://cdn.live.easybroadcast.io/live/radio_nationale/playlist.m3u8?"
   ],
   "Radio Amazigh": [
-    "https://cdn.live.easybroadcast.io/live/radio_amazigh/playlist.m3u8?"
+    "https://cdn.live.easybroadcast.io/live/radio_amazigh/playlist.m3u8?",
+    "https://cdn.live.easybroadcast.io/live/radio_amazigh/chunks.m3u8?"
   ],
   "Chaîne Inter": [
+    "https://cdn.live.easybroadcast.io/live/radio_inter/chunks.m3u8?",
     "https://cdn.live.easybroadcast.io/live/radio_inter/playlist.m3u8?"
   ],
   "Radio Casablanca": ["https://cdn.live.easybroadcast.io/live/radio_casablanca/playlist.m3u8?"],
