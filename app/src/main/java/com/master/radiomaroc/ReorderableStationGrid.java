@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.animation.LayoutTransition;
+import android.os.Handler;
+import android.os.Looper;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /** GridLayout with live long-press vertical station reordering. */
 public class ReorderableStationGrid extends GridLayout {
@@ -28,6 +32,22 @@ public class ReorderableStationGrid extends GridLayout {
     private boolean rebuilding;
     private View dragging;
     private View hoverTarget;
+    private final Handler dragHandler = new Handler(Looper.getMainLooper());
+    private float lastDragScreenY;
+    private int scrollVelocity;
+    private boolean autoScrollRunning;
+    private final Runnable autoScrollFrame = new Runnable() {
+        @Override public void run() {
+            if (!autoScrollRunning || dragging == null) return;
+            ScrollView scroll = parentScrollView();
+            if (scroll != null && scrollVelocity != 0) {
+                scroll.scrollBy(0, scrollVelocity);
+                int[] loc = new int[2]; getLocationOnScreen(loc);
+                liveMove(dragging, lastDragScreenY - loc[1]);
+            }
+            dragHandler.postDelayed(this, 16);
+        }
+    };
 
     public ReorderableStationGrid(Context context) { super(context); init(); }
     public ReorderableStationGrid(Context context, AttributeSet attrs) { super(context, attrs); init(); }
@@ -70,9 +90,10 @@ public class ReorderableStationGrid extends GridLayout {
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 dragging = event.getLocalState() instanceof View ? (View) event.getLocalState() : dragging;
+                autoScrollRunning=true;dragHandler.removeCallbacks(autoScrollFrame);dragHandler.post(autoScrollFrame);
                 return accepts(event) && dragging != null;
             case DragEvent.ACTION_DRAG_LOCATION:
-                autoScroll(event.getY());
+                updateAutoScroll(event.getY());
                 liveMove(dragging, event.getY());
                 return true;
             case DragEvent.ACTION_DROP:
@@ -105,23 +126,35 @@ public class ReorderableStationGrid extends GridLayout {
         desired = Math.max(0, Math.min(desired, getChildCount() - 1));
         if (desired == from) return;
 
+        Map<View,Integer> oldTops=new HashMap<>();for(int i=0;i<getChildCount();i++){View v=getChildAt(i);oldTops.put(v,v.getTop());}
         rebuilding = true;
+        LayoutTransition transition=getLayoutTransition();setLayoutTransition(null);
         removeViewAt(from);
-        if (from < desired) desired--;
         desired = Math.max(0, Math.min(desired, getChildCount()));
         addView(dragged, desired);
+        setLayoutTransition(transition);
         rebuilding = false;
         dragged.setAlpha(.72f);
         requestLayout();
+        post(()->animateDomino(oldTops,dragged));
         saveOrder();
     }
 
     private void finishDrag() {
+        autoScrollRunning=false;scrollVelocity=0;dragHandler.removeCallbacks(autoScrollFrame);
         if (dragging != null) dragging.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(130).start();
         pulseTarget(null);
         dragging = null;
         saveOrder();
         requestLayout();
+    }
+
+    private void animateDomino(Map<View,Integer> oldTops,View dragged){
+        for(int i=0;i<getChildCount();i++){
+            View v=getChildAt(i);Integer old=oldTops.get(v);if(old==null)continue;float delta=old-v.getTop();
+            if(Math.abs(delta)<1f)continue;v.animate().cancel();v.setTranslationY(delta);
+            v.animate().translationY(0f).setDuration(v==dragged?105:145).setInterpolator(new android.view.animation.DecelerateInterpolator(1.8f)).start();
+        }
     }
 
     private void pulseTarget(View target) {
@@ -132,18 +165,18 @@ public class ReorderableStationGrid extends GridLayout {
     }
 
     /** Fast edge scrolling keeps long lists fluid while a card is being reordered. */
-    private void autoScroll(float gridY) {
+    private void updateAutoScroll(float gridY) {
         ScrollView scroll = parentScrollView();
         if (scroll == null) return;
         int[] gridLocation = new int[2], scrollLocation = new int[2];
         getLocationOnScreen(gridLocation); scroll.getLocationOnScreen(scrollLocation);
-        float screenY = gridLocation[1] + gridY;
+        float screenY = gridLocation[1] + gridY;lastDragScreenY=screenY;
         float top = scrollLocation[1], bottom = top + scroll.getHeight();
         float edge = Math.max(72f, scroll.getHeight() * .16f);
         int dy = 0;
-        if (screenY < top + edge) dy = -(int) (12 + 42 * (top + edge - screenY) / edge);
-        else if (screenY > bottom - edge) dy = (int) (12 + 42 * (screenY - bottom + edge) / edge);
-        if (dy != 0) scroll.scrollBy(0, dy);
+        if (screenY < top + edge) dy = -(int) (9 + 30 * Math.min(1f,(top + edge - screenY) / edge));
+        else if (screenY > bottom - edge) dy = (int) (9 + 30 * Math.min(1f,(screenY - bottom + edge) / edge));
+        scrollVelocity=dy;
     }
 
     private ScrollView parentScrollView() {
