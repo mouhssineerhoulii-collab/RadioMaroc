@@ -27,7 +27,7 @@ public final class PlaylistResolver {
     public static boolean shouldResolve(String url) {
         if (url == null) return false;
         String u = url.toLowerCase(Locale.ROOT);
-        return isSnrt(u) || u.contains("stream.bodkas.com/playlist") || u.endsWith(".m3u") || u.endsWith(".pls");
+        return u.contains("snrtlive.ma") || u.contains("snrt.ma/") || u.contains("player.easybroadcast.io") || u.contains("stream.bodkas.com/playlist") || u.endsWith(".m3u") || u.endsWith(".pls");
     }
 
     private static boolean isSnrt(String u) {
