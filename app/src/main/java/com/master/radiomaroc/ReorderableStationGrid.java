@@ -3,13 +3,16 @@ package com.master.radiomaroc;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.animation.LayoutTransition;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,12 +27,19 @@ public class ReorderableStationGrid extends GridLayout {
     private static final String SEP = "\u001F";
     private boolean rebuilding;
     private View dragging;
+    private View hoverTarget;
 
     public ReorderableStationGrid(Context context) { super(context); init(); }
     public ReorderableStationGrid(Context context, AttributeSet attrs) { super(context, attrs); init(); }
     public ReorderableStationGrid(Context context, AttributeSet attrs, int defStyleAttr) { super(context, attrs, defStyleAttr); init(); }
 
     private void init() {
+        LayoutTransition transition = new LayoutTransition();
+        transition.setDuration(LayoutTransition.CHANGE_APPEARING, 115);
+        transition.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 115);
+        transition.setDuration(LayoutTransition.CHANGING, 115);
+        transition.enableTransitionType(LayoutTransition.CHANGING);
+        setLayoutTransition(transition);
         setOnDragListener((v, event) -> handleGridDrag(event));
     }
 
@@ -46,7 +56,7 @@ public class ReorderableStationGrid extends GridLayout {
             ClipData data = ClipData.newPlainText("station", name);
             v.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
             boolean started = v.startDragAndDrop(data, new InvisibleDragShadowBuilder(v), v, 0);
-            if (started) v.setAlpha(.48f); else dragging = null;
+            if (started) v.animate().alpha(.72f).scaleX(1.025f).scaleY(1.025f).setDuration(90).start(); else dragging = null;
             return started;
         });
         applySavedOrder();
@@ -62,6 +72,7 @@ public class ReorderableStationGrid extends GridLayout {
                 dragging = event.getLocalState() instanceof View ? (View) event.getLocalState() : dragging;
                 return accepts(event) && dragging != null;
             case DragEvent.ACTION_DRAG_LOCATION:
+                autoScroll(event.getY());
                 liveMove(dragging, event.getY());
                 return true;
             case DragEvent.ACTION_DROP:
@@ -81,13 +92,16 @@ public class ReorderableStationGrid extends GridLayout {
         if (dragged == null || dragged.getParent() != this || getChildCount() < 2) return;
         int from = indexOfChild(dragged);
         int desired = from;
+        View nearest = null; float nearestDistance = Float.MAX_VALUE;
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if (child == dragged) continue;
             float center = child.getTop() + child.getHeight() / 2f;
+            float distance = Math.abs(gridY-center); if(distance<nearestDistance){nearestDistance=distance;nearest=child;}
             if (gridY > center) desired = Math.max(desired, i);
             else if (gridY < center) { desired = Math.min(desired, i); break; }
         }
+        pulseTarget(nearest);
         desired = Math.max(0, Math.min(desired, getChildCount() - 1));
         if (desired == from) return;
 
@@ -97,16 +111,45 @@ public class ReorderableStationGrid extends GridLayout {
         desired = Math.max(0, Math.min(desired, getChildCount()));
         addView(dragged, desired);
         rebuilding = false;
-        dragged.setAlpha(.48f);
+        dragged.setAlpha(.72f);
         requestLayout();
         saveOrder();
     }
 
     private void finishDrag() {
-        if (dragging != null) dragging.setAlpha(1f);
+        if (dragging != null) dragging.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(130).start();
+        pulseTarget(null);
         dragging = null;
         saveOrder();
         requestLayout();
+    }
+
+    private void pulseTarget(View target) {
+        if (hoverTarget == target) return;
+        if (hoverTarget != null && hoverTarget != dragging) hoverTarget.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(80).start();
+        hoverTarget = target;
+        if (hoverTarget != null && hoverTarget != dragging) hoverTarget.animate().scaleX(.975f).scaleY(.975f).alpha(.82f).setDuration(70).start();
+    }
+
+    /** Fast edge scrolling keeps long lists fluid while a card is being reordered. */
+    private void autoScroll(float gridY) {
+        ScrollView scroll = parentScrollView();
+        if (scroll == null) return;
+        int[] gridLocation = new int[2], scrollLocation = new int[2];
+        getLocationOnScreen(gridLocation); scroll.getLocationOnScreen(scrollLocation);
+        float screenY = gridLocation[1] + gridY;
+        float top = scrollLocation[1], bottom = top + scroll.getHeight();
+        float edge = Math.max(72f, scroll.getHeight() * .16f);
+        int dy = 0;
+        if (screenY < top + edge) dy = -(int) (12 + 42 * (top + edge - screenY) / edge);
+        else if (screenY > bottom - edge) dy = (int) (12 + 42 * (screenY - bottom + edge) / edge);
+        if (dy != 0) scroll.scrollBy(0, dy);
+    }
+
+    private ScrollView parentScrollView() {
+        ViewParent p = getParent();
+        while (p != null) { if (p instanceof ScrollView) return (ScrollView) p; p = p.getParent(); }
+        return null;
     }
 
     /** Deliberately invisible: Android must not show a red arrow, bar or floating preview. */
