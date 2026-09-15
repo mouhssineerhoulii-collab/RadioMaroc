@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
     private LinearLayout root;
     private TextView appTitle, appSubtitle, settingsButton, nowPlayingLabel, nowPlaying, status;
     private EditText searchBox;
+    private Spinner categorySpinner;
     private Button allButton, favoritesButton, recentButton, viewButton, toggleButton, stopButton;
     private Button homeNavButton, favoritesNavButton, settingsNavButton;
     private ImageView playerLogo;
@@ -29,6 +30,7 @@ public class MainActivity extends Activity {
     private String lang;
     private String viewMode;
     private String filterMode = "all";
+    private String categoryFilter = "all";
     private Set<String> favorites;
     private final List<String> recent = new ArrayList<>();
     private String currentStationName = "";
@@ -67,7 +69,7 @@ public class MainActivity extends Activity {
         prefs = getSharedPreferences("radio_maroc_prefs", MODE_PRIVATE);
         lang = prefs.getString("lang", "en"); viewMode = prefs.getString("view", "list");
         favorites = new HashSet<>(prefs.getStringSet("favorites", new HashSet<>()));
-        loadRecent(); bindViews(); applyLanguage(); requestNotificationPermission(); buildStationList("");
+        loadRecent(); bindViews(); setupCategorySelector(); applyLanguage(); requestNotificationPermission(); buildStationList("");
         findViewById(R.id.playerBox).setVisibility(View.GONE);
         stopButton.setOnClickListener(v -> stopRadio()); toggleButton.setOnClickListener(v -> toggleRadio());
         allButton.setOnClickListener(v -> setFilter("all")); favoritesButton.setOnClickListener(v -> setFilter("favorites"));
@@ -85,6 +87,7 @@ public class MainActivity extends Activity {
     private void bindViews() {
         root=findViewById(R.id.root); appTitle=findViewById(R.id.appTitle); appSubtitle=findViewById(R.id.appSubtitle);
         settingsButton=findViewById(R.id.settingsButton); searchBox=findViewById(R.id.searchBox); allButton=findViewById(R.id.allButton);
+        categorySpinner=findViewById(R.id.categorySpinner);
         favoritesButton=findViewById(R.id.favoritesButton); recentButton=findViewById(R.id.recentButton); viewButton=findViewById(R.id.viewButton);
         playerLogo=findViewById(R.id.playerLogo); nowPlayingLabel=findViewById(R.id.nowPlayingLabel); nowPlaying=findViewById(R.id.nowPlaying);
         status=findViewById(R.id.status); toggleButton=findViewById(R.id.toggleButton); stopButton=findViewById(R.id.stopButton);
@@ -106,6 +109,23 @@ public class MainActivity extends Activity {
     }
 
     private String t(String ar,String fr,String en){if("fr".equals(lang))return fr;if("ar".equals(lang))return ar;return en;}
+    private String categoryTitle(String category){
+        if("islamic".equals(category))return t("إسلامية وقرآن","Islam et Coran","Islamic & Quran");
+        if("public".equals(category))return t("إذاعات عمومية","Radios publiques","Public radio");
+        if("regional".equals(category))return t("إذاعات جهوية","Radios régionales","Regional radio");
+        if("news".equals(category))return t("أخبار","Actualités","News");
+        if("sports".equals(category))return t("رياضة","Sport","Sports");
+        if("amazigh".equals(category))return t("أمازيغية","Amazigh","Amazigh");
+        if("music".equals(category))return t("موسيقى","Musique","Music");
+        if("foreign".equals(category))return t("أجنبية وعالمية","Internationales","Foreign & world");
+        return t("متنوعة وثقافة","Variées et culture","Variety & culture");
+    }
+    private void setupCategorySelector(){
+        final String[] keys={"all","islamic","public","regional","news","sports","general","amazigh","music","foreign"};
+        String[] labels={t("كل الأقسام","Toutes les catégories","All categories"),categoryTitle("islamic"),categoryTitle("public"),categoryTitle("regional"),categoryTitle("news"),categoryTitle("sports"),categoryTitle("general"),categoryTitle("amazigh"),categoryTitle("music"),categoryTitle("foreign")};
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,labels){@Override public View getView(int p,View v,ViewGroup parent){TextView x=(TextView)super.getView(p,v,parent);x.setTextColor(getColor(R.color.text));x.setTextSize(15);return x;}};
+        categorySpinner.setAdapter(adapter);categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){@Override public void onItemSelected(AdapterView<?> p,View v,int position,long id){String next=keys[position];if(!next.equals(categoryFilter)){categoryFilter=next;buildStationList(searchBox.getText().toString());}}@Override public void onNothingSelected(AdapterView<?> p){}});
+    }
     private String stateText(String state){if("connecting".equals(state))return t("جاري الاتصال…","Connexion…","Connecting…");if("playing".equals(state))return t("● يعمل الآن","● Lecture","● Playing");if("paused".equals(state))return t("متوقف مؤقتًا","En pause","Paused");if("error".equals(state))return t("تعذر تشغيل المحطة","Lecture impossible","Playback unavailable");return t("متوقف","Arrêté","Stopped");}
     private void setFilter(String mode){filterMode=mode;updateModeButtons();buildStationList(searchBox.getText().toString());}
 
@@ -114,6 +134,7 @@ public class MainActivity extends Activity {
         String q=query==null?"":query.trim().toLowerCase(Locale.ROOT);
         for(Station station:Stations.ALL){
             if("favorites".equals(filterMode)&&!favorites.contains(station.name))continue;if("recent".equals(filterMode)&&!recent.contains(station.name))continue;
+            if(!"all".equals(categoryFilter)&&!categoryFilter.equals(station.category))continue;
             String searchable=(station.name+" "+station.subtitleAr+" "+station.subtitleFr+" "+station.subtitleEn).toLowerCase(Locale.ROOT);if(!q.isEmpty()&&!searchable.contains(q))continue;
             final boolean available=station.hasStream(); LinearLayout card=new LinearLayout(this);card.setOrientation(grid?LinearLayout.VERTICAL:LinearLayout.HORIZONTAL);card.setGravity(Gravity.CENTER_VERTICAL);
             card.setPadding(dp(compact?8:11),dp(compact?7:10),dp(compact?8:11),dp(compact?7:10));card.setBackgroundResource(R.drawable.card_bg);card.setAlpha(available?1f:.62f);
@@ -123,7 +144,7 @@ public class MainActivity extends Activity {
             if(grid){lp.gravity=Gravity.CENTER_HORIZONTAL;lp.bottomMargin=dp(8);}else lp.setMarginEnd(dp(11));logo.setLayoutParams(lp);logo.setScaleType(ImageView.ScaleType.CENTER_INSIDE);logo.setPadding(dp(3),dp(3),dp(3),dp(3));logo.setBackgroundResource(R.drawable.logo_bg);LogoLoader.load(station.logoUrl,station.name,logo,R.drawable.ic_app);
             LinearLayout info=new LinearLayout(this);info.setOrientation(LinearLayout.VERTICAL);info.setGravity(grid?Gravity.CENTER_HORIZONTAL:Gravity.CENTER_VERTICAL);info.setLayoutParams(new LinearLayout.LayoutParams(grid?ViewGroup.LayoutParams.MATCH_PARENT:0,ViewGroup.LayoutParams.WRAP_CONTENT,grid?0:1f));
             TextView name=new TextView(this);name.setText(station.name);name.setTypeface(Typeface.DEFAULT,Typeface.BOLD);name.setTextSize(compact?14:(grid?16:17));name.setTextColor(getColor(R.color.text));name.setGravity(grid?Gravity.CENTER:Gravity.START);name.setMaxLines(grid?2:1);
-            TextView sub=new TextView(this);sub.setText(station.subtitle(lang));sub.setTextColor(getColor(R.color.muted));sub.setTextSize(compact?10:12);sub.setGravity(grid?Gravity.CENTER:Gravity.START);sub.setMaxLines(2);if(!available)sub.setText(sub.getText()+"  •  "+t("غير متاحة مؤقتًا","Indisponible temporairement","Temporarily unavailable"));info.addView(name);info.addView(sub);
+            TextView sub=new TextView(this);sub.setText(categoryTitle(station.category)+"  •  "+station.subtitle(lang));sub.setTextColor(getColor(R.color.muted));sub.setTextSize(compact?10:12);sub.setGravity(grid?Gravity.CENTER:Gravity.START);sub.setMaxLines(2);if(!available)sub.setText(sub.getText()+"  •  "+t("غير متاحة مؤقتًا","Indisponible temporairement","Temporarily unavailable"));info.addView(name);info.addView(sub);
             LinearLayout actions=new LinearLayout(this);actions.setGravity(Gravity.CENTER);
             TextView star=actionText(favorites.contains(station.name)?"★":"☆",R.color.gold);star.setContentDescription(t("المفضلة","Favori","Favorite"));star.setOnClickListener(v->toggleFavorite(station.name,star));
             boolean selected=station.name.equals(currentStationName);TextView play=actionText(available?(selected&&currentPlaying?"Ⅱ":"▶"):"—",R.color.gold_light);play.setContentDescription(selected&&currentPlaying?t("إيقاف مؤقت","Pause","Pause"):t("تشغيل","Lecture","Play"));play.setAlpha(available?1f:.35f);if(available)play.setOnClickListener(v->{if(station.name.equals(currentStationName))toggleRadio();else playStation(station);});
