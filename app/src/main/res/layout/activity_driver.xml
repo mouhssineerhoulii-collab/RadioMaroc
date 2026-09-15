@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#07131B">
-    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/moroccan_background" android:scaleType="centerCrop" android:alpha="0.22" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="22dp">
-        <Button android:id="@+id/driverExit" android:layout_width="match_parent" android:layout_height="56dp" android:text="✕  QUITTER • خروج" android:textSize="18sp" android:textStyle="bold" android:textColor="#FFFFFF" android:background="@drawable/tab_inactive" />
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/moroccan_background" android:scaleType="centerCrop" android:alpha="0.16" />
+    <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="#A807131B" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center" android:padding="24dp">
+        <Button android:id="@+id/driverExit" android:layout_width="64dp" android:layout_height="64dp" android:layout_gravity="end" android:text="✕" android:textSize="24sp" android:textColor="#FFFFFF" android:background="@drawable/tab_inactive" android:contentDescription="Exit driving mode" />
         <Space android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
-        <TextView android:id="@+id/driverStation" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Radio Maroc" android:textColor="#FFFFFF" android:textSize="32sp" android:textStyle="bold" android:gravity="center" android:maxLines="2" />
-        <TextView android:id="@+id/driverState" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ARRÊT • متوقف" android:textColor="#F6C85F" android:textSize="18sp" android:textStyle="bold" android:gravity="center" android:layout_marginTop="12dp" />
+        <TextView android:id="@+id/driverStation" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Radio Maroc" android:textColor="#FFFFFF" android:textSize="36sp" android:textStyle="bold" android:gravity="center" android:maxLines="2" android:ellipsize="end" />
+        <TextView android:id="@+id/driverState" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Paused" android:textColor="#F6C85F" android:textSize="17sp" android:textStyle="bold" android:gravity="center" android:layout_marginTop="12dp" />
         <Space android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
-        <LinearLayout android:layout_width="match_parent" android:layout_height="112dp" android:orientation="horizontal" android:gravity="center">
-            <Button android:id="@+id/driverPrevious" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="◀" android:textSize="40sp" android:textColor="#FFFFFF" android:background="@drawable/tab_inactive" />
-            <Button android:id="@+id/driverPlay" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.25" android:text="▶" android:textSize="46sp" android:textColor="#0A1820" android:background="@drawable/tab_active" />
-            <Button android:id="@+id/driverNext" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="▶|" android:textSize="34sp" android:textColor="#FFFFFF" android:background="@drawable/tab_inactive" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="132dp" android:orientation="horizontal" android:gravity="center">
+            <Button android:id="@+id/driverPrevious" android:layout_width="0dp" android:layout_height="112dp" android:layout_weight="1" android:text="|◀" android:textSize="36sp" android:textColor="#FFFFFF" android:background="@drawable/tab_inactive" android:contentDescription="Previous station" />
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+            <Button android:id="@+id/driverPlay" android:layout_width="132dp" android:layout_height="132dp" android:text="▶" android:textSize="50sp" android:textColor="#07131B" android:background="@drawable/tab_active" android:contentDescription="Play or pause" />
+            <Space android:layout_width="12dp" android:layout_height="1dp" />
+            <Button android:id="@+id/driverNext" android:layout_width="0dp" android:layout_height="112dp" android:layout_weight="1" android:text="▶|" android:textSize="36sp" android:textColor="#FFFFFF" android:background="@drawable/tab_inactive" android:contentDescription="Next station" />
         </LinearLayout>
-        <Button android:id="@+id/driverStop" android:layout_width="match_parent" android:layout_height="76dp" android:text="■  ARRÊTER • إيقاف" android:textSize="22sp" android:textStyle="bold" android:textColor="#FFFFFF" android:background="@drawable/stop_glass" android:layout_marginTop="14dp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="RADIO MAROC" android:textColor="#9FB0BA" android:textSize="13sp" android:textStyle="bold" android:letterSpacing="0.18" android:gravity="center" android:layout_marginTop="28dp" />
         <Space android:layout_width="1dp" android:layout_height="0dp" android:layout_weight="1" />
     </LinearLayout>
 </FrameLayout>
