@@ -1,0 +1,25 @@
+{
+  "إذاعة محمد السادس للقرآن الكريم": [
+    "https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?"
+  ],
+  "Radio Nationale": [
+    "https://cdn.live.easybroadcast.io/live/radio_nationale/playlist.m3u8?"
+  ],
+  "Radio Amazigh": [
+    "https://cdn.live.easybroadcast.io/live/radio_amazigh/playlist.m3u8?"
+  ],
+  "Chaîne Inter": [
+    "https://cdn.live.easybroadcast.io/live/radio_inter/playlist.m3u8?"
+  ],
+  "Radio Casablanca": ["https://cdn.live.easybroadcast.io/live/radio_casablanca/playlist.m3u8?"],
+  "Radio Fès": ["https://cdn.live.easybroadcast.io/live/radio_fes/playlist.m3u8?"],
+  "Radio Meknès": ["https://cdn.live.easybroadcast.io/live/radio_meknes/playlist.m3u8?"],
+  "Radio Tanger": ["https://cdn.live.easybroadcast.io/live/radio_tanger/playlist.m3u8?"],
+  "Radio Tétouan": ["https://cdn.live.easybroadcast.io/live/radio_tetouan/playlist.m3u8?"],
+  "Radio Al Hoceima": ["https://cdn.live.easybroadcast.io/live/radio_houceima/playlist.m3u8?"],
+  "Radio Oujda": ["https://cdn.live.easybroadcast.io/live/radio_oujda/playlist.m3u8?"],
+  "Radio Marrakech": ["https://cdn.live.easybroadcast.io/live/radio_marrakech/playlist.m3u8?"],
+  "Radio Agadir": ["https://cdn.live.easybroadcast.io/live/radio_agadir/playlist.m3u8?"],
+  "Radio Laâyoune": ["https://cdn.live.easybroadcast.io/live/radio_laayoune/playlist.m3u8?"],
+  "Radio Dakhla": ["https://cdn.live.easybroadcast.io/live/radio_dakhla/playlist.m3u8?"]
+}
