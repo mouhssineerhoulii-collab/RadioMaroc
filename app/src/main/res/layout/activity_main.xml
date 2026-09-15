@@ -18,6 +18,7 @@
             <Button android:id="@+id/recentButton" android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1" android:text="Recent" android:textAllCaps="false" android:textColor="#EEF4F7" android:background="@drawable/tab_inactive" />
             <Button android:id="@+id/viewButton" android:layout_width="60dp" android:layout_height="48dp" android:text="☰" android:textSize="20sp" android:textAllCaps="false" android:textColor="#F6D17C" android:background="@drawable/tab_inactive" />
         </LinearLayout>
+        <Spinner android:id="@+id/categorySpinner" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginStart="14dp" android:layout_marginEnd="14dp" android:layout_marginTop="2dp" android:layout_marginBottom="3dp" android:paddingStart="16dp" android:paddingEnd="16dp" android:background="@drawable/glass_pill" android:popupBackground="#ED102735" />
         <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true" android:paddingStart="7dp" android:paddingEnd="7dp" android:paddingTop="4dp">
             <com.master.radiomaroc.ReorderableStationGrid android:id="@+id/stationsGrid" android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="1" android:alignmentMode="alignMargins" android:useDefaultMargins="false" />
         </ScrollView>
