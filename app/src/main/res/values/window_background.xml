@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main artwork is rendered by moroccanBackground in activity_main.xml.
+         All lower navigation/player surfaces stay transparent so the artwork
+         remains continuous to the bottom edge. -->
+</resources>
