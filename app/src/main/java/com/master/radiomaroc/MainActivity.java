@@ -118,11 +118,14 @@ public class MainActivity extends Activity {
             TextView star=actionText(favorites.contains(station.name)?"★":"☆",R.color.gold);star.setContentDescription(t("المفضلة","Favori","Favorite"));star.setOnClickListener(v->toggleFavorite(station.name,star));
             boolean selected=station.name.equals(currentStationName);TextView play=actionText(available?(selected&&currentPlaying?"Ⅱ":"▶"):"—",R.color.gold_light);play.setContentDescription(selected&&currentPlaying?t("إيقاف مؤقت","Pause","Pause"):t("تشغيل","Lecture","Play"));play.setAlpha(available?1f:.35f);if(available)play.setOnClickListener(v->{if(station.name.equals(currentStationName))toggleRadio();else playStation(station);});
             TextView stop=actionText("■",R.color.text);stop.setContentDescription(t("إيقاف","Arrêter","Stop"));stop.setAlpha(selected?.95f:.28f);stop.setEnabled(selected);if(selected)stop.setOnClickListener(v->stopRadio());
-            actions.addView(star);actions.addView(play);actions.addView(stop);card.addView(logo);card.addView(info);card.addView(actions);stationsGrid.addView(card);
+            PlayingBarsView bars=new PlayingBarsView(this);LinearLayout.LayoutParams bp=new LinearLayout.LayoutParams(dp(30),dp(30));bp.setMarginStart(dp(2));bp.setMarginEnd(dp(2));bars.setLayoutParams(bp);bars.setContentDescription(t("المحطة تعمل الآن","Station en lecture","Station playing"));bars.setPlaying(selected&&currentPlaying);
+            actions.addView(bars);actions.addView(star);actions.addView(play);actions.addView(stop);card.addView(logo);card.addView(info);card.addView(actions);
+            if(available){card.setClickable(true);card.setFocusable(true);card.setOnClickListener(v->{v.animate().scaleX(.985f).scaleY(.985f).setDuration(55).withEndAction(()->v.animate().scaleX(1f).scaleY(1f).setDuration(105).start()).start();if(station.name.equals(currentStationName))toggleRadio();else playStation(station);});}
+            stationsGrid.addView(card);
         }
     }
 
-    private TextView actionText(String text,int color){TextView v=new TextView(this);v.setText(text);v.setTextSize(23);v.setTextColor(getColor(color));v.setGravity(Gravity.CENTER);v.setPadding(dp(8),0,dp(8),0);return v;}
+    private TextView actionText(String text,int color){TextView v=new TextView(this);v.setText(text);v.setTextSize(24);v.setTextColor(getColor(color));v.setGravity(Gravity.CENTER);v.setMinWidth(dp(48));v.setMinHeight(dp(48));v.setPadding(dp(10),0,dp(10),0);return v;}
     private void toggleFavorite(String name,TextView star){if(favorites.contains(name))favorites.remove(name);else favorites.add(name);prefs.edit().putStringSet("favorites",new HashSet<>(favorites)).apply();star.setText(favorites.contains(name)?"★":"☆");if("favorites".equals(filterMode))buildStationList(searchBox.getText().toString());}
     private void cycleViewMode(){viewMode="list".equals(viewMode)?"compact":("compact".equals(viewMode)?"grid":"list");prefs.edit().putString("view",viewMode).apply();updateViewIcon();buildStationList(searchBox.getText().toString());}
     private void updateViewIcon(){viewButton.setText("grid".equals(viewMode)?"▦":("compact".equals(viewMode)?"☷":"☰"));}
