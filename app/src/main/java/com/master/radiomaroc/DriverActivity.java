@@ -8,7 +8,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-/** High-contrast, distraction-reduced playback controls for use in a car. */
+/** Large, icon-first, distraction-reduced playback controls for driving. */
 public final class DriverActivity extends Activity {
     private TextView station, state;
     private Button play;
@@ -28,11 +28,10 @@ public final class DriverActivity extends Activity {
         play.setOnClickListener(v->command(RadioService.ACTION_TOGGLE));
         findViewById(R.id.driverPrevious).setOnClickListener(v->command(RadioService.ACTION_PREVIOUS));
         findViewById(R.id.driverNext).setOnClickListener(v->command(RadioService.ACTION_NEXT));
-        findViewById(R.id.driverStop).setOnClickListener(v->command(RadioService.ACTION_STOP));
         findViewById(R.id.driverExit).setOnClickListener(v->finish());
     }
     private void command(String action){startService(new Intent(this,RadioService.class).setAction(action));}
-    private String label(String s){if("playing".equals(s))return "EN DIRECT • على الهواء";if("connecting".equals(s)||"reconnecting".equals(s))return "CONNEXION • جاري الاتصال";if("paused".equals(s))return "PAUSE • متوقف مؤقتًا";if("error".equals(s))return "INDISPONIBLE • غير متاح";return "ARRÊT • متوقف";}
+    private String label(String s){if("playing".equals(s))return "LIVE";if("connecting".equals(s)||"reconnecting".equals(s))return "CONNECTING";if("paused".equals(s))return "PAUSED";if("error".equals(s))return "UNAVAILABLE";return "READY";}
     @Override protected void onStart(){super.onStart();IntentFilter f=new IntentFilter("com.master.radiomaroc.STATE");if(Build.VERSION.SDK_INT>=33)registerReceiver(receiver,f,Context.RECEIVER_NOT_EXPORTED);else registerReceiver(receiver,f);command(RadioService.ACTION_QUERY);}
     @Override protected void onStop(){try{unregisterReceiver(receiver);}catch(Exception ignored){}super.onStop();}
 }
