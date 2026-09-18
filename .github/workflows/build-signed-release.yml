@@ -49,8 +49,7 @@ jobs:
 
       - name: Verify release signature and fingerprint
         run: |
-          apksigner verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
-          sha256sum app/build/outputs/apk/release/app-release.apk > app/build/outputs/apk/release/SHA256SUMS.txt
+        "$ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner" verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
 
       - name: Remove private signing key
         if: always()
