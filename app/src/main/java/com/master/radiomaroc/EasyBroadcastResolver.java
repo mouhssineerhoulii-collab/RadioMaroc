@@ -52,9 +52,9 @@ public final class EasyBroadcastResolver {
         try {
             c=(HttpURLConnection)new URL(url).openConnection();
             c.setConnectTimeout(12000); c.setReadTimeout(12000); c.setInstanceFollowRedirects(true);
-            c.setRequestProperty("User-Agent","ExoPlayer"); c.setRequestProperty("Accept","*/*");
-            c.setRequestProperty("Referer","https://snrtlive.ma/");
-            c.setRequestProperty("Origin","https://snrtlive.ma");
+            c.setRequestProperty("User-Agent","RadioMaroc/7.1 Android"); c.setRequestProperty("Accept","*/*");
+            if(url.contains("medi1radio")){c.setRequestProperty("Referer","https://www.medi1.com/");c.setRequestProperty("Origin","https://www.medi1.com");}
+            else {c.setRequestProperty("Referer","https://snrtlive.ma/");c.setRequestProperty("Origin","https://snrtlive.ma");}
             int code=c.getResponseCode();
             if(code<200||code>=300) throw new IOException("HTTP "+code);
             InputStream in=c.getInputStream(); ByteArrayOutputStream out=new ByteArrayOutputStream();

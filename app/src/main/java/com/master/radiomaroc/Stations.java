@@ -86,7 +86,6 @@ public final class Stations {
   s("Tarab Radio","راديو طرب","Tarab Radio","Tarab Radio",G,"music","https://streaming2.rimradio.ma/livetarab","https://stream.zeno.fm/fy8achbq97zuv"),
   // أجنبية
   s("ALLZIC ORIENTALE","ألزيك أورينتال","ALLZIC Orientale","ALLZIC Orientale",G,"foreign","https://allzic33.ice.infomaniak.ch/allzic33.mp3"),
-  s("Calm Radio Arabic","كالم راديو عربي","Calm Radio Arabic","Calm Radio Arabic",G,"foreign","https://streams.calmradio.com:5228/stream/1/"),
   s("Skyrock Casablanca","سكاي روك الدار البيضاء","Skyrock Casablanca","Skyrock Casablanca",G,"foreign","https://icecast.skyrock.net/s/casa_aac_64k")
  );
  public static Station find(String n){if(n==null)return null;for(Station s:ALL)if(s.name.equals(n))return s;return null;}

@@ -55,9 +55,9 @@ public class ReorderableStationGrid extends GridLayout {
 
     private void init() {
         LayoutTransition transition = new LayoutTransition();
-        transition.setDuration(LayoutTransition.CHANGE_APPEARING, 115);
-        transition.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 115);
-        transition.setDuration(LayoutTransition.CHANGING, 115);
+        transition.setDuration(LayoutTransition.CHANGE_APPEARING, 90);
+        transition.setDuration(LayoutTransition.CHANGE_DISAPPEARING, 90);
+        transition.setDuration(LayoutTransition.CHANGING, 90);
         transition.enableTransitionType(LayoutTransition.CHANGING);
         setLayoutTransition(transition);
         setOnDragListener((v, event) -> handleGridDrag(event));
@@ -76,7 +76,7 @@ public class ReorderableStationGrid extends GridLayout {
             ClipData data = ClipData.newPlainText("station", name);
             v.performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
             boolean started = v.startDragAndDrop(data, new InvisibleDragShadowBuilder(v), v, 0);
-            if (started) v.animate().alpha(.72f).scaleX(1.025f).scaleY(1.025f).setDuration(90).start(); else dragging = null;
+            if (started) v.animate().alpha(.88f).scaleX(1.045f).scaleY(1.045f).setDuration(70).setInterpolator(new android.view.animation.OvershootInterpolator(.7f)).start(); else dragging = null;
             return started;
         });
         applySavedOrder();
@@ -149,11 +149,13 @@ public class ReorderableStationGrid extends GridLayout {
         requestLayout();
     }
 
+    /** Waterfall motion: each displaced card follows the previous one with a very short delay. */
     private void animateDomino(Map<View,Integer> oldTops,View dragged){
+        int wave=0;
         for(int i=0;i<getChildCount();i++){
             View v=getChildAt(i);Integer old=oldTops.get(v);if(old==null)continue;float delta=old-v.getTop();
-            if(Math.abs(delta)<1f)continue;v.animate().cancel();v.setTranslationY(delta);
-            v.animate().translationY(0f).setDuration(v==dragged?105:145).setInterpolator(new android.view.animation.DecelerateInterpolator(1.8f)).start();
+            if(Math.abs(delta)<1f)continue;v.animate().cancel();v.setTranslationY(delta);v.setScaleX(.985f);v.setScaleY(.985f);
+            v.animate().translationY(0f).scaleX(1f).scaleY(1f).setStartDelay(Math.min(72,wave++*12L)).setDuration(v==dragged?95:135).setInterpolator(new android.view.animation.OvershootInterpolator(.55f)).start();
         }
     }
 
