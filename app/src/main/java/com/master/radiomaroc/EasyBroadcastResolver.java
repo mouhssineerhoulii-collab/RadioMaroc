@@ -14,6 +14,8 @@ public final class EasyBroadcastResolver {
     public static boolean shouldResolve(String url) {
         if (url == null) return false;
         String u = url.toLowerCase();
+        // These are direct MP3 endpoints, not tokenized HLS manifests.
+        if (u.contains("/medi1radio/")) return false;
         return u.contains("cdn.live.easybroadcast.io") && !u.contains("token.easybroadcast.io");
     }
 
