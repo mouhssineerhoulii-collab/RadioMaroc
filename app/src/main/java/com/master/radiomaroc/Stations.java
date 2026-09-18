@@ -43,7 +43,7 @@ public final class Stations {
   s("Radio Mars","راديو مارس - الرياضة المغربية","Radio Mars - sport","Moroccan sports",H+"images/logo-radio-marsN-new%282%29.PNG","sports","https://radiomars.ice.infomaniak.ch/radiomars-128.mp3"),
   // متنوعة
   s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information et culture","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://broadcast.ice.infomaniak.ch/aswat-high.mp3","https://aswat.ice.infomaniak.ch/aswat-high.mp3"),
-  s("MFM Radio","إم إف إم","MFM Radio","MFM Radio",H+"MFM%20Radio.jpg","general","https://a5.asurahosting.com:7980/radio.mp3"),
+  s("MFM Radio","إم إف إم","MFM Radio","MFM Radio",H+"MFM%20Radio.jpg","general","https://a5.asurahosting.com:7980/radio.mp3","https://streamer.eagrpservices.com/audio/mfmradio.ogg","https://eu.stream4cast.com/proxy/mfmradio/stream"),
   s("Medradio","ميد راديو - مجتمع وحوار","Medradio","Talk radio",H+"images/logo%20med%20vf.PNG","general","https://medradio.ice.infomaniak.ch/medradio-128.mp3"),
   s("Medina FM","مدينة إف إم","Medina FM","Medina FM",H+"images/medina%20fm%20logo%20A.PNG","general","https://medinafm.ice.infomaniak.ch/medinafm-64.mp3","https://medinafm.ice.infomaniak.ch/medinafm-128.mp3"),
   s("Radio RIM","ريم راديو","Radio RIM","Radio RIM",G,"general","https://streaming.rimradio.ma/live"),
@@ -58,7 +58,7 @@ public final class Stations {
   s("Yabiladi Chaabi","يابلادي شعبي","Yabiladi Chaabi","Yabiladi Chaabi",G,"music","https://radio.yabiladi.com:8102/;stream.mp3"),
   s("Yabiladi Uran","يابلادي أوران","Yabiladi Uran","Yabiladi Uran",G,"music","https://radio.yabiladi.com:9102/;stream.mp3"),
   // موسيقى
-  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://chadatv.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://stream.bodkas.com/playlist?id=chadafmradio","https://broadcast.infomaniak.ch/chadafm-high.mp3"),
+  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://chadatv.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","https://streamer.eagrpservices.com/audio/chadafm.mp3","https://stream.bodkas.com/playlist?id=chadafmradio","https://broadcast.infomaniak.ch/chadafm-high.mp3"),
   s("Hit Radio","هيت راديو","Hit Radio","Hit Radio",T,"music","https://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3"),
   s("Hit Radio Party","هيت راديو بارتي","Hit Radio Party","Hit Radio Party",T,"music","https://party.ice.infomaniak.ch/party-128.mp3"),
   s("Hit Radio Classic","هيت راديو كلاسيك","Hit Radio Classic","Hit Radio Classic",T,"music","https://gold.ice.infomaniak.ch/gold-128.mp3"),
@@ -80,7 +80,7 @@ public final class Stations {
   s("Adwaa FM","أضواء إف إم","Adwaa FM","Adwaa FM",G,"music","https://stream.zeno.fm/5bxh2nh0x1zuv"),
   s("Adwaa FM 2","أضواء إف إم 2","Adwaa FM 2","Adwaa FM 2",G,"music","https://stream.zeno.fm/vrrtqsh0x1zuv"),
   s("Adwaa FM 3","أضواء إف إم 3","Adwaa FM 3","Adwaa FM 3",G,"music","https://stream.zeno.fm/x4451xh0x1zuv"),
-  s("Adwaa FM 4","أضواء إف إم 4","Adwaa FM 4","Adwaa FM 4",G,"music","https://stream.zeno.fm/8wrs2bh0x1zuv"),
+  s("Adwaa FM 4","أضواء إف إم 4","Adwaa FM 4","Adwaa FM 4",G,"music","https://stream.zeno.fm/8wrs2bh0x1zuv","https://node-27.zeno.fm/8wrs2bh0x1zuv"),
   s("Adwaa FM 6","أضواء إف إم 6","Adwaa FM 6","Adwaa FM 6",G,"music","https://stream.zeno.fm/tvxvud2kpm0uv"),
   s("Adwaa FM 7","أضواء إف إم 7","Adwaa FM 7","Adwaa FM 7",G,"music","https://node-18.zeno.fm/v83swh05098uv"),
   s("Tarab Radio","راديو طرب","Tarab Radio","Tarab Radio",G,"music","https://streaming2.rimradio.ma/livetarab","https://stream.zeno.fm/fy8achbq97zuv"),
