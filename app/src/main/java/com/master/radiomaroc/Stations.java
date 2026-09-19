@@ -61,7 +61,6 @@ public final class Stations {
   s("Medradio","ميد راديو - مجتمع وحوار","Medradio","Talk radio",H+"images/logo%20med%20vf.PNG","general","https://medradio.ice.infomaniak.ch/medradio-128.mp3"),
   s("Medina FM","مدينة إف إم","Medina FM","Medina FM",H+"images/medina%20fm%20logo%20A.PNG","general","https://medinafm.ice.infomaniak.ch/medinafm-64.mp3","https://medinafm.ice.infomaniak.ch/medinafm-128.mp3"),
   s("Radio RIM","ريم راديو","Radio RIM","Radio RIM",G,"general","https://streaming.rimradio.ma/live"),
-  s("Luxe Radio","لوكس راديو - ثقافة ونمط حياة","Culture et art de vivre","Culture and lifestyle",H+"images/logo-luxeradio.PNG","general","http://streaming.luxeradio.ma:8000/stream.mp3","http://luxeradio.ma:8668/"),
   s("Radio Orient","راديو الشرق","Radio Orient","Radio Orient",G,"general","https://stream.rcs.revma.com/7hnrkawf4p8uv.mp3"),
   s("Radio Beur FM","بور إف إم","Beur FM","Beur FM",G,"general","https://beurfm.ice.infomaniak.ch/beurfm-high.mp3"),
   s("Radio Soleil","راديو صولي","Radio Soleil","Radio Soleil",G,"general","https://radiosoleil.ice.infomaniak.ch/radiosoleil-128.mp3"),
