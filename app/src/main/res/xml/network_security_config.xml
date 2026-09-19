@@ -16,6 +16,5 @@
         <domain includeSubdomains="true">broadcast.infomaniak.net</domain>
         <domain includeSubdomains="true">cdnamd-hls-globecast.akamaized.net</domain>
         <domain includeSubdomains="true">live.medi1.com</domain>
-        <domain includeSubdomains="true">media.yabiladi.com</domain>
     </domain-config>
 </network-security-config>
