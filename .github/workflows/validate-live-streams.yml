@@ -40,6 +40,16 @@ jobs:
           xargs -r -n 1 -P 12 bash -c 'check_stream "$0"' < /tmp/stream_urls.txt | sort > /tmp/stream_report.txt
           echo '--- endpoint report ---'
           cat /tmp/stream_report.txt
+      - name: Probe Chada decodable media
+        shell: bash
+        run: |
+          for url in \
+            'https://edge16.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8' \
+            'https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8' \
+            'https://stream.bodkas.com/playlist?id=chadafmradio'; do
+            echo "--- $url"
+            timeout 30 ffprobe -v error -show_entries stream=codec_type,codec_name -of default=noprint_wrappers=1 "$url" || true
+          done
       - name: Upload stream validation report
         uses: actions/upload-artifact@v4
         with:
