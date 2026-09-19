@@ -1,5 +1,6 @@
 package com.master.radiomaroc;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Curated and deduplicated directory; each station keeps ordered fallback streams. */
@@ -7,7 +8,20 @@ public final class Stations {
  private Stations(){}
  private static final String H="https://www.haca.ma/sites/default/files/upload/",G=H+"images/rn.jpg",M=H+"images/Logo%20Medi1.jpg",T=H+"images/logohitradio.jpg";
  private static Station s(String n,String ar,String fr,String en,String logo,String cat,String...u){return new Station(n,ar,fr,en,logo,cat,u);}
- public static final List<Station> ALL=Arrays.asList(
+ /** Keeps the first screen useful: national and requested stations appear before the long directory. */
+ private static List<Station> ordered(List<Station> source){
+  List<Station> result=new ArrayList<>();
+  String[] first={"إذاعة محمد السادس للقرآن الكريم","Radio Aswat","Chada FM","Medi 1 Soufi","Medi 1 Andalouse","Medi 1 Radio","Medi 1 Hits","Medi 1 DJ","Medi 1 Tarab","Medi 1 Lounge","Medi 1 Latino","Medi 1 Jazz"};
+  String[] snrt={"Radio Nationale","Radio Amazigh","Chaîne Inter","Radio Casablanca","Radio Fès","Radio Meknès","Radio Tanger","Radio Tétouan","Radio Al Hoceima","Radio Oujda","Radio Marrakech","Radio Agadir","Radio Laâyoune","Radio Dakhla"};
+  String[] news={"Al Jazeera Radio Arabic","BBC Radio Arabic","Radio Al Arabiya","Monte Carlo Doualiya","Radio Sky News Arabia","Atlantic Radio","France Maghreb 2"};
+  for(String name:first)addByName(source,result,name);
+  for(String name:snrt)addByName(source,result,name);
+  for(String name:news)addByName(source,result,name);
+  for(Station station:source)if(!result.contains(station))result.add(station);
+  return result;
+ }
+ private static void addByName(List<Station> source,List<Station> result,String name){for(Station station:source)if(name.equals(station.name)&&!result.contains(station)){result.add(station);return;}}
+ public static final List<Station> ALL=ordered(Arrays.asList(
   // إسلامية وقرآن
   s("إذاعة محمد السادس للقرآن الكريم","القرآن الكريم والبرامج الدينية","Coran et programmes religieux","Quran and religious programs",H+"images/Mohamed%20VI.PNG","islamic","https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_mohammed_6/hls_snrt_radio/index.m3u8"),
   s("Medi 1 Soufi","صوفي ومديح","Soufi et chants spirituels","Sufi and spiritual music",M,"islamic","https://cdn.live.easybroadcast.io/medi1radio/Soufi"),
@@ -87,6 +101,6 @@ public final class Stations {
   // أجنبية
   s("ALLZIC ORIENTALE","ألزيك أورينتال","ALLZIC Orientale","ALLZIC Orientale",G,"foreign","https://allzic33.ice.infomaniak.ch/allzic33.mp3"),
   s("Skyrock Casablanca","سكاي روك الدار البيضاء","Skyrock Casablanca","Skyrock Casablanca",G,"foreign","https://icecast.skyrock.net/s/casa_aac_64k")
- );
+ ));
  public static Station find(String n){if(n==null)return null;for(Station s:ALL)if(s.name.equals(n))return s;return null;}
 }

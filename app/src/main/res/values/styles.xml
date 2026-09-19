@@ -14,12 +14,4 @@
         <item name="android:colorAccent">@color/gold_light</item>
         <item name="android:enforceNavigationBarContrast">false</item>
     </style>
-    <style name="CategorySpinnerPopupTheme" parent="android:style/Theme.Material.NoActionBar">
-        <item name="android:fontFamily">sans</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:textColorPrimary">#FFFFFFFF</item>
-        <item name="android:textColorSecondary">#FFDDE7ED</item>
-        <item name="android:colorAccent">@color/gold_light</item>
-        <item name="android:windowBackground">#FF102735</item>
-    </style>
 </resources>
