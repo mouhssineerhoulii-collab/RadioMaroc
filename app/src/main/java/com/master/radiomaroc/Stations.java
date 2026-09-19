@@ -67,12 +67,12 @@ public final class Stations {
   s("Radio Soleil","راديو صولي","Radio Soleil","Radio Soleil",G,"general","https://radiosoleil.ice.infomaniak.ch/radiosoleil-128.mp3"),
   // أمازيغية ومغربية
   s("Radio Azawan","أزاوان - موسيقى أمازيغية","Musique amazighe","Amazigh music",H+"LOGO%20AZAWAN.PNG","amazigh","https://az-maroc.ice.infomaniak.ch/az-maroc-128.mp3","https://stream.zeno.fm/9y8y2h8w7hhvv"),
-  s("Yabiladi Amazigh","يابلادي أمازيغ","Yabiladi Amazigh","Yabiladi Amazigh",G,"amazigh","https://radio.yabiladi.com:9002/;stream.mp3"),
-  s("Yabiladi Hmadcha","يابلادي حمادشة","Yabiladi Hmadcha","Yabiladi Hmadcha",G,"music","https://radio.yabiladi.com:8002/;stream.mp3"),
-  s("Yabiladi Chaabi","يابلادي شعبي","Yabiladi Chaabi","Yabiladi Chaabi",G,"music","https://radio.yabiladi.com:8102/;stream.mp3"),
-  s("Yabiladi Uran","يابلادي أوران","Yabiladi Uran","Yabiladi Uran",G,"music","https://radio.yabiladi.com:9102/;stream.mp3"),
+  s("Yabiladi Radio","راديو يابلادي","Radio Yabiladi","Yabiladi Radio",G,"general","https://radio.yabiladi.com:8002/stream.mp3","https://media.yabiladi.com:8000/stream.mp3"),
+  s("Yabiladi Chaabi","يابلادي شعبي","Yabiladi Chaabi","Yabiladi Chaabi",G,"music","https://radio.yabiladi.com:8102/stream.mp3","http://media.yabiladi.com:8100/"),
+  s("Yabiladi Amazigh","يابلادي أمازيغ","Yabiladi Azawan Amazigh","Yabiladi Amazigh",G,"amazigh","https://radio.yabiladi.com:9002/stream.mp3"),
+  s("Yabiladi Nayda","يابلادي نايدا","Yabiladi Nayda","Yabiladi Nayda",G,"music","https://radio.yabiladi.com:9102/stream.mp3","http://media.yabiladi.com:9100/"),
   // موسيقى
-  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://chadatv.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","https://streamer.eagrpservices.com/audio/chadafm.mp3","https://stream.bodkas.com/playlist?id=chadafmradio","https://broadcast.infomaniak.ch/chadafm-high.mp3"),
+  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://edge16.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://chadatv.vedge.infomaniak.com/livecast/chadatv/playlist.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","https://streamer.eagrpservices.com/audio/chadafm.mp3","https://stream.bodkas.com/playlist?id=chadafmradio","https://broadcast.infomaniak.ch/chadafm-high.mp3"),
   s("Hit Radio","هيت راديو","Hit Radio","Hit Radio",T,"music","https://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3"),
   s("Hit Radio Party","هيت راديو بارتي","Hit Radio Party","Hit Radio Party",T,"music","https://party.ice.infomaniak.ch/party-128.mp3"),
   s("Hit Radio Classic","هيت راديو كلاسيك","Hit Radio Classic","Hit Radio Classic",T,"music","https://gold.ice.infomaniak.ch/gold-128.mp3"),

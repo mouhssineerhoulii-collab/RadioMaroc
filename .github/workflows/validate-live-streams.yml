@@ -1,0 +1,41 @@
+name: Validate RadioMaroc Live Streams
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test published station endpoints
+        shell: bash
+        run: |
+          python3 - <<'PY' > /tmp/stream_urls.txt
+          import re
+          from pathlib import Path
+          text = Path('app/src/main/java/com/master/radiomaroc/Stations.java').read_text()
+          urls = []
+          for line in text.splitlines():
+              if 's(' not in line:
+                  continue
+              for url in re.findall(r'"(https?://[^" ]+)"', line):
+                  if 'haca.ma/' not in url and url not in urls:
+                      urls.append(url)
+          print('\n'.join(urls))
+          PY
+          : > /tmp/stream_report.txt
+          while IFS= read -r url; do
+            result=$(curl --location --range 0-2047 --connect-timeout 10 --max-time 20 --silent --show-error --output /dev/null --write-out '%{http_code}\t%{content_type}\t%{url_effective}' "$url" 2>&1) || true
+            printf '%s\t%s\n' "$url" "$result" | tee -a /tmp/stream_report.txt
+          done < /tmp/stream_urls.txt
+          echo '--- endpoint report ---'
+          cat /tmp/stream_report.txt
+      - name: Upload stream validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: RadioMaroc-Stream-Validation
+          path: /tmp/stream_report.txt
