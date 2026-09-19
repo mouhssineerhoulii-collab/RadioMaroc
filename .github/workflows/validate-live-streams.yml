@@ -27,11 +27,13 @@ jobs:
                       urls.append(url)
           print('\n'.join(urls))
           PY
-          : > /tmp/stream_report.txt
-          while IFS= read -r url; do
+          check_stream() {
+            url="$1"
             result=$(curl --location --range 0-2047 --connect-timeout 10 --max-time 20 --silent --show-error --output /dev/null --write-out '%{http_code}\t%{content_type}\t%{url_effective}' "$url" 2>&1) || true
-            printf '%s\t%s\n' "$url" "$result" | tee -a /tmp/stream_report.txt
-          done < /tmp/stream_urls.txt
+            printf '%s\t%s\n' "$url" "$result"
+          }
+          export -f check_stream
+          xargs -r -n 1 -P 12 bash -c 'check_stream "$0"' < /tmp/stream_urls.txt | sort > /tmp/stream_report.txt
           echo '--- endpoint report ---'
           cat /tmp/stream_report.txt
       - name: Upload stream validation report
