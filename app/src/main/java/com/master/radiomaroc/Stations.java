@@ -23,7 +23,7 @@ public final class Stations {
  private static void addByName(List<Station> source,List<Station> result,String name){for(Station station:source)if(name.equals(station.name)&&!result.contains(station)){result.add(station);return;}}
  public static final List<Station> ALL=ordered(Arrays.asList(
   // إسلامية وقرآن
-  s("إذاعة محمد السادس للقرآن الكريم","القرآن الكريم والبرامج الدينية","Coran et programmes religieux","Quran and religious programs",H+"images/Mohamed%20VI.PNG","islamic","https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_mohammed_6/hls_snrt_radio/index.m3u8"),
+  s("إذاعة محمد السادس للقرآن الكريم","القرآن الكريم والبرامج الدينية","Coran et programmes religieux","Quran and religious programs",H+"images/Mohamed%20VI.PNG","quran","https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_mohammed_6/hls_snrt_radio/index.m3u8"),
   s("Medi 1 Soufi","صوفي ومديح","Soufi et chants spirituels","Sufi and spiritual music",M,"islamic","https://cdn.live.easybroadcast.io/medi1radio/Soufi"),
   // عمومية
   s("Radio Nationale","الإذاعة الوطنية المغربية","Radio publique nationale","National public radio",H+"images/radioNationale.PNG","public","https://cdn.live.easybroadcast.io/live/radio_nationale/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_idaa_watanya/hls_snrt_radio/index.m3u8"),
