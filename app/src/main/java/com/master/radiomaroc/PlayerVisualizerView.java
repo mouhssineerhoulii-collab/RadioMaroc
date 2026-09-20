@@ -15,7 +15,7 @@ public final class PlayerVisualizerView extends View {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float targetLevel = .08f;
     private float displayLevel = .08f;
-    private boolean playing;
+    private boolean playing; private float phase;
     private long lastFrameNanos;
 
     public PlayerVisualizerView(Context c) { super(c); init(); }
@@ -37,7 +37,7 @@ public final class PlayerVisualizerView extends View {
         final float w=getWidth(), h=getHeight();
         if (w<=0 || h<=0) return;
 
-        long now=System.nanoTime();
+        phase+=.11f; long now=System.nanoTime();
         float dt=lastFrameNanos==0 ? .016f : Math.min(.05f,(now-lastFrameNanos)/1_000_000_000f);
         lastFrameNanos=now;
 
@@ -50,8 +50,9 @@ public final class PlayerVisualizerView extends View {
         final float[] shape={.58f,.82f,1f,.74f,.91f,.68f,.50f};
         for(int i=0;i<5;i++){
             float x=w*(i+1)/6f;
-            float energy=.14f + displayLevel*.78f;
-            float bar=Math.max(paint.getStrokeWidth(),h*energy*shape[i]);
+            float pulse=.68f+.32f*Math.abs((float)Math.sin(phase+i*.91f));
+            float energy=.14f + Math.max(displayLevel,.20f)*.78f;
+            float bar=Math.max(paint.getStrokeWidth(),h*energy*shape[i]*pulse);
             c.drawLine(x,(h-bar)/2f,x,(h+bar)/2f,paint);
         }
         if(playing) postInvalidateOnAnimation();
