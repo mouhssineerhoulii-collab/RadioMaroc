@@ -2,6 +2,8 @@ name: Build Signed RadioMaroc Release
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ release/7.2.7-private-final ]
   pull_request:
     branches: [ main ]
     paths:
