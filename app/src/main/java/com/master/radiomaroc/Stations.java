@@ -57,7 +57,6 @@ public final class Stations {
   s("BBC Radio Arabic","بي بي سي عربي","BBC arabe","BBC Arabic",G,"news","https://stream.live.vc.bbcmedia.co.uk/bbc_arabic_radio"),
   s("Monte Carlo Doualiya","مونت كارلو الدولية","Monte Carlo Doualiya","Monte Carlo Doualiya",G,"news","https://montecarlodoualiya128k.ice.infomaniak.ch/mc-doualiya.mp3"),
   s("France Maghreb 2","فرانس مغرب 2","France Maghreb 2","France Maghreb 2",G,"news","https://francemaghreb2.ice.infomaniak.ch/francemaghreb2-high.mp3"),
-  s("Radio Salam Lyon","راديو سلام - إذاعة فرنسية عربية للجالية","Radio franco-arabe de Lyon","Franco-Arab community radio in Lyon",G,"diaspora","https://radiosalam.ice.infomaniak.ch/radiosalam-128.mp3"),
   s("Radio Mars","راديو مارس - الرياضة المغربية","Radio Mars - sport","Moroccan sports",H+"images/logo-radio-marsN-new%282%29.PNG","sports","https://radiomars.ice.infomaniak.ch/radiomars-128.mp3"),
   // متنوعة
   s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information et culture","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://broadcast.ice.infomaniak.ch/aswat-high.mp3","http://broadcast.ice.infomaniak.ch/aswat-high.mp3?.mp3","https://aswat.ice.infomaniak.ch/aswat-high.mp3"),
