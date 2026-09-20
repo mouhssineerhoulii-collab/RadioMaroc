@@ -75,7 +75,7 @@ public final class Stations {
   s("Yabiladi Amazigh","يابلادي أمازيغ","Yabiladi Azawan Amazigh","Yabiladi Amazigh",G,"amazigh","https://radio.yabiladi.com:9002/stream.mp3"),
   s("Yabiladi Nayda","يابلادي نايدا","Yabiladi Nayda","Yabiladi Nayda",G,"music","https://radio.yabiladi.com:9102/stream.mp3"),
   // موسيقى
-  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://edge16.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","https://stream.bodkas.com/playlist?id=chadafmradio"),
+  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://stream.bodkas.com/playlist?id=chadafmradio","https://stream.bodkas.com/playlist","https://edge16.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","http://broadcast.infomaniak.net/chadafm-high.mp3"),
   s("Hit Radio","هيت راديو","Hit Radio","Hit Radio",T,"music","https://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3"),
   s("Hit Radio Classic","هيت راديو كلاسيك","Hit Radio Classic","Hit Radio Classic",T,"music","https://gold.ice.infomaniak.ch/gold-128.mp3"),
   s("Hit Radio Mgharba","هيت راديو مغاربة","Hit Radio Mgharba","Hit Radio Mgharba",T,"music","https://mgharba.ice.infomaniak.ch/mgharba-128.mp3"),
