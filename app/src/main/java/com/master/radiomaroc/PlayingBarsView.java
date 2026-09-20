@@ -1,59 +1,36 @@
 package com.master.radiomaroc;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 
-/** Small, lightweight live-audio indicator used inside the active station card. */
+/** Compact live-audio indicator for the active station card. */
 public final class PlayingBarsView extends View {
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private ValueAnimator animator;
-    private float phase;
+    private final Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
+    private float target=.06f, level=.06f;
+    private boolean playing;
+    private long lastFrame; private float phase;
 
-    public PlayingBarsView(Context context) { super(context); init(); }
-    public PlayingBarsView(Context context, AttributeSet attrs) { super(context, attrs); init(); }
+    public PlayingBarsView(Context c){super(c);init();}
+    public PlayingBarsView(Context c,AttributeSet a){super(c,a);init();}
+    private void init(){paint.setColor(0xFFF8D990);paint.setStrokeCap(Paint.Cap.ROUND);setVisibility(GONE);}
 
-    private void init() {
-        paint.setColor(0xFFF8D990);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        setVisibility(GONE);
+    public void setAudioLevel(float value,boolean active){
+        playing=active; target=active?Math.max(.07f,Math.min(1f,value)):.05f;
+        setVisibility(active?VISIBLE:GONE);
+        if(active)postInvalidateOnAnimation();else{level=.05f;invalidate();}
     }
+    public void setPlaying(boolean active){setAudioLevel(active?.18f:0f,active);}
 
-    public void setPlaying(boolean playing) {
-        if (playing) {
-            setVisibility(VISIBLE);
-            if (animator == null) {
-                animator = ValueAnimator.ofFloat(0f, (float) (Math.PI * 2));
-                animator.setDuration(820);
-                animator.setRepeatCount(ValueAnimator.INFINITE);
-                animator.setInterpolator(new LinearInterpolator());
-                animator.addUpdateListener(a -> { phase = (float) a.getAnimatedValue(); invalidate(); });
-            }
-            if (!animator.isStarted()) animator.start();
-        } else {
-            if (animator != null) animator.cancel();
-            setVisibility(GONE);
-        }
-    }
-
-    @Override protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        float w = getWidth(), h = getHeight();
-        paint.setStrokeWidth(Math.max(3f, w / 16f));
-        for (int i = 0; i < 4; i++) {
-            float x = w * (i + 1) / 5f;
-            float amplitude = .25f + .65f * Math.abs((float) Math.sin(phase + i * 1.17f));
-            float bar = Math.max(paint.getStrokeWidth(), h * amplitude);
-            canvas.drawLine(x, (h - bar) / 2f, x, (h + bar) / 2f, paint);
-        }
-    }
-
-    @Override protected void onDetachedFromWindow() {
-        if (animator != null) animator.cancel();
-        super.onDetachedFromWindow();
+    @Override protected void onDraw(Canvas c){
+        super.onDraw(c); if(!playing)return;
+        float w=getWidth(),h=getHeight(); phase+=.13f; long now=System.nanoTime();
+        float dt=lastFrame==0?.016f:Math.min(.05f,(now-lastFrame)/1_000_000_000f); lastFrame=now;
+        float speed=target>level?10f:4.2f, alpha=1f-(float)Math.exp(-speed*dt); level+=(target-level)*alpha;
+        paint.setStrokeWidth(Math.max(2f,w/14f)); float[] shape={.62f,.88f,1f,.76f,.54f};
+        for(int i=0;i<5;i++){float x=w*(i+1)/6f;float pulse=.66f+.34f*Math.abs((float)Math.sin(phase+i*.97f));float bar=Math.max(paint.getStrokeWidth(),h*(.14f+Math.max(level,.20f)*.76f)*shape[i]*pulse);c.drawLine(x,(h-bar)/2f,x,(h+bar)/2f,paint);}
+        postInvalidateOnAnimation();
     }
 }
