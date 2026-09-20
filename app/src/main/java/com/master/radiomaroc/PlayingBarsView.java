@@ -28,8 +28,8 @@ public final class PlayingBarsView extends View {
         super.onDraw(c); if(!playing)return;
         float w=getWidth(),h=getHeight(); long now=System.nanoTime();
         float dt=lastFrame==0?.016f:Math.min(.05f,(now-lastFrame)/1_000_000_000f); lastFrame=now;
-        float speed=target>level?5f:2.4f, alpha=1f-(float)Math.exp(-speed*dt); level+=(target-level)*alpha;
-        paint.setStrokeWidth(Math.max(2f,w/14f)); float[] shape={.52f,.78f,1f,.70f,.46f};
+        float speed=target>level?10f:4.2f, alpha=1f-(float)Math.exp(-speed*dt); level+=(target-level)*alpha;
+        paint.setStrokeWidth(Math.max(2f,w/14f)); float[] shape={.62f,.88f,1f,.76f,.54f};
         for(int i=0;i<5;i++){float x=w*(i+1)/6f;float bar=Math.max(paint.getStrokeWidth(),h*(.14f+level*.76f)*shape[i]);c.drawLine(x,(h-bar)/2f,x,(h+bar)/2f,paint);}
         postInvalidateOnAnimation();
     }
