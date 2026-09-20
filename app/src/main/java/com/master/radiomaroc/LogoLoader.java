@@ -64,6 +64,8 @@ public final class LogoLoader {
             URL u = new URL(url);
             String base = u.getProtocol() + "://" + u.getHost();
             out.add(base + "/apple-touch-icon.png");
+            out.add(base + "/apple-touch-icon-precomposed.png");
+            out.add(base + "/android-chrome-512x512.png");
             out.add(base + "/android-chrome-192x192.png");
             out.add(base + "/favicon-192x192.png");
             out.add(base + "/favicon.png");
@@ -76,10 +78,11 @@ public final class LogoLoader {
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(4500);
-            connection.setReadTimeout(5000);
+            connection.setReadTimeout(8000);
             connection.setInstanceFollowRedirects(true);
             connection.setRequestProperty("User-Agent", "RadioMaroc/3.0 Android OpenSource");
-            connection.setRequestProperty("Accept", "image/png,image/jpeg,image/webp,image/x-icon,*/*;q=0.5");
+            connection.setRequestProperty("Accept", "image/avif,image/webp,image/png,image/jpeg,image/x-icon,*/*;q=0.8");
+            connection.setRequestProperty("Referer", new URL(url).getProtocol()+"://"+new URL(url).getHost()+"/");
             int code = connection.getResponseCode();
             if (code < 200 || code >= 400) return null;
             InputStream in = connection.getInputStream();
