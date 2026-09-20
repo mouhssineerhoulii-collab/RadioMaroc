@@ -60,7 +60,7 @@ public final class Stations {
   s("France Maghreb 2","فرانس مغرب 2","France Maghreb 2","France Maghreb 2",G,"news","https://francemaghreb2.ice.infomaniak.ch/francemaghreb2-high.mp3"),
   s("Radio Mars","راديو مارس - الرياضة المغربية","Radio Mars - sport","Moroccan sports",H+"images/logo-radio-marsN-new%282%29.PNG","sports","https://radiomars.ice.infomaniak.ch/radiomars-128.mp3"),
   // متنوعة
-  s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information et culture","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://broadcast.ice.infomaniak.ch/aswat-high.mp3","https://aswat.ice.infomaniak.ch/aswat-high.mp3"),
+  s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information et culture","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://broadcast.ice.infomaniak.ch/aswat-high.mp3","http://broadcast.ice.infomaniak.ch/aswat-high.mp3?.mp3","https://aswat.ice.infomaniak.ch/aswat-high.mp3"),
   s("MFM Radio","إم إف إم","MFM Radio","MFM Radio",H+"MFM%20Radio.jpg","general","https://a5.asurahosting.com:7980/radio.mp3","https://eu.stream4cast.com/proxy/mfmradio/stream"),
   s("Medradio","ميد راديو - مجتمع وحوار","Medradio","Talk radio",H+"images/logo%20med%20vf.PNG","general","https://medradio.ice.infomaniak.ch/medradio-128.mp3"),
   s("Medina FM","مدينة إف إم","Medina FM","Medina FM",H+"images/medina%20fm%20logo%20A.PNG","general","https://medinafm.ice.infomaniak.ch/medinafm-64.mp3","https://medinafm.ice.infomaniak.ch/medinafm-128.mp3"),
