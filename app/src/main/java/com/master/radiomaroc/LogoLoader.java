@@ -41,7 +41,7 @@ public final class LogoLoader {
         imageView.setTag(cacheKey);
         EXECUTOR.execute(() -> {
             Bitmap bitmap = null;
-            for (String candidate : candidates(url, safeLabel)) {
+            for (String candidate : candidates(url)) {
                 bitmap = downloadBitmap(candidate);
                 if (bitmap != null) break;
             }
@@ -56,18 +56,14 @@ public final class LogoLoader {
         });
     }
 
-    private static List<String> candidates(String url, String label) {
+    private static List<String> candidates(String url) {
         List<String> out = new ArrayList<>();
-        if (url != null && !url.trim().isEmpty()) out.add(url);
-        String official=officialSite(label);
-        if(official!=null){out.add(official+"/apple-touch-icon.png");out.add(official+"/android-chrome-512x512.png");out.add(official+"/android-chrome-192x192.png");out.add(official+"/favicon-192x192.png");out.add(official+"/favicon.png");}
         if (url == null || url.trim().isEmpty()) return out;
+        out.add(url);
         try {
             URL u = new URL(url);
             String base = u.getProtocol() + "://" + u.getHost();
             out.add(base + "/apple-touch-icon.png");
-            out.add(base + "/apple-touch-icon-precomposed.png");
-            out.add(base + "/android-chrome-512x512.png");
             out.add(base + "/android-chrome-192x192.png");
             out.add(base + "/favicon-192x192.png");
             out.add(base + "/favicon.png");
@@ -75,29 +71,15 @@ public final class LogoLoader {
         return out;
     }
 
-    private static String officialSite(String label){
-        if(label==null)return null;String n=label.toLowerCase();
-        if(n.contains("medi 1"))return "https://medi1.com";
-        if(n.contains("chada"))return "https://chada.ma";
-        if(n.contains("aswat"))return "https://www.aswat.ma";
-        if(n.contains("2m"))return "https://2m.ma";
-        if(n.contains("atlantic"))return "https://atlanticradio.ma";
-        if(n.contains("hit radio"))return "https://hitradio.ma";
-        if(n.contains("cap radio"))return "https://capradio.ma";
-        if(n.contains("radio mars"))return "https://radiomars.ma";
-        return null;
-    }
-
     private static Bitmap downloadBitmap(String url) {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(4500);
-            connection.setReadTimeout(8000);
+            connection.setReadTimeout(5000);
             connection.setInstanceFollowRedirects(true);
             connection.setRequestProperty("User-Agent", "RadioMaroc/3.0 Android OpenSource");
-            connection.setRequestProperty("Accept", "image/avif,image/webp,image/png,image/jpeg,image/x-icon,*/*;q=0.8");
-            connection.setRequestProperty("Referer", new URL(url).getProtocol()+"://"+new URL(url).getHost()+"/");
+            connection.setRequestProperty("Accept", "image/png,image/jpeg,image/webp,image/x-icon,*/*;q=0.5");
             int code = connection.getResponseCode();
             if (code < 200 || code >= 400) return null;
             InputStream in = connection.getInputStream();
