@@ -12,8 +12,8 @@ android {
         applicationId "com.master.radiomaroc"
         minSdk 24
         targetSdk 35
-        versionCode 45
-        versionName "7.2.4"
+        versionCode 46
+        versionName "7.2.6"
     }
     signingConfigs { release { if (releaseKeystore && releasePassword) { storeFile file(releaseKeystore); storePassword releasePassword; keyAlias 'radiomaroc'; keyPassword releasePassword; enableV1Signing true; enableV2Signing true; enableV3Signing true; enableV4Signing true } } }
     buildTypes {
