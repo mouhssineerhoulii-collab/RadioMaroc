@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
     private void updateViewIcon(){viewButton.setText("grid".equals(viewMode)?"▦":("compact".equals(viewMode)?"☷":"☰"));}private void updateModeButtons(){styleModeButton(allButton,"all".equals(filterMode));styleModeButton(quranButton,"quran".equals(filterMode));styleModeButton(favoritesButton,"favorites".equals(filterMode));}private void styleModeButton(Button b,boolean active){b.setAlpha(active?1f:.82f);b.setTextColor(active?0xFFF8D990:0xFFEDE7DC);b.setBackgroundResource(active?R.drawable.tab_active:R.drawable.tab_inactive);b.animate().scaleX(active?1.015f:1f).scaleY(active?1.015f:1f).setDuration(180).start();}
     private TextView glassSettingsRow(String label){
         TextView v=new TextView(this); v.setText(label); v.setTextColor(0xFFFFFFFF); v.setTextSize(19); v.setGravity(Gravity.CENTER_VERTICAL);
-        v.setPadding(dp(18),dp(14),dp(18),dp(14)); v.setBackgroundResource(R.drawable.card_bg);
+        v.setPadding(dp(18),dp(14),dp(18),dp(14)); v.setBackgroundResource(R.drawable.settings_row_glass);
         LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0,dp(5),0,dp(5)); v.setLayoutParams(lp); return v;
     }
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
         String[] items={"🚘  "+t("وضعية السياقة","Mode conduite","Driving mode"),"◐  "+t("المظهر","Apparence","Appearance"),"🌐  "+t("اللغة","Langue","Language"),"▦  "+t("طريقة العرض","Mode d’affichage","Display mode"),"◷  "+t("مؤقت النوم","Minuterie","Sleep timer"),"ⓘ  "+t("حول البرنامج","À propos","About"),"🔒  "+t("الخصوصية والأمان","Confidentialité et sécurité","Privacy & security"),"✕  "+t("الخروج من البرنامج","Quitter l’application","Exit application")};
         for(int n=0;n<items.length;n++){final int which=n;TextView row=glassSettingsRow(items[n]);row.setOnClickListener(v->{dialog.dismiss();if(which==0)startActivity(new Intent(this,DriverActivity.class));else if(which==1)showThemeDialog();else if(which==2)showLanguageDialog();else if(which==3)showViewDialog();else if(which==4)showSleepDialog();else if(which==5)showAboutDialog();else if(which==6)showPrivacyDialog();else confirmExit();});panel.addView(row);}
         TextView close=glassSettingsRow(t("إغلاق","Fermer","Close")); close.setGravity(Gravity.CENTER); close.setTypeface(Typeface.DEFAULT,Typeface.BOLD); close.setOnClickListener(v->dialog.dismiss()); panel.addView(close);
-        dialog.setView(panel); dialog.setOnShowListener(x->{if(dialog.getWindow()!=null){dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);dialog.getWindow().setDimAmount(.18f);}});
+        dialog.setView(panel); dialog.setOnShowListener(x->{if(dialog.getWindow()!=null){dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);dialog.getWindow().setDimAmount(.10f);}});
         dialog.show();
     }
         private void showThemeDialog(){String[]o={t("المظهر المغربي","Apparence marocaine","Moroccan appearance"),t("المظهر الداكن","Apparence sombre","Dark appearance"),t("المظهر الفاتح المريح للعين","Apparence claire et reposante","Clear, eye-friendly appearance")};int c="moroccan".equals(theme)?0:("night".equals(theme)?1:2);dialogBuilder().setTitle("◐  "+t("المظهر","Apparence","Appearance")).setSingleChoiceItems(o,c,(d,w)->{theme=w==0?"moroccan":(w==1?"night":"clear");prefs.edit().putString("theme",theme).apply();d.dismiss();applyTheme();buildStationList(searchBox.getText().toString());}).show();}
