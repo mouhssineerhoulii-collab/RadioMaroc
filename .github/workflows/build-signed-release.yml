@@ -2,6 +2,8 @@ name: Build Signed RadioMaroc Release
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ release/7.2.7-no-mic-play ]
   pull_request:
     branches: [ main ]
     paths:
@@ -47,15 +49,15 @@ jobs:
           echo "$KEYSTORE_B64" | base64 --decode > "$GITHUB_WORKSPACE/radiomaroc-release.jks"
           chmod 600 "$GITHUB_WORKSPACE/radiomaroc-release.jks"
 
-      - name: Build signed release APK
+      - name: Build signed release APK and AAB
         env:
           RADIO_MAROC_KEYSTORE_FILE: ${{ github.workspace }}/radiomaroc-release.jks
-        run: gradle assembleRelease --stacktrace
+        run: gradle assembleRelease bundleRelease --stacktrace
 
       - name: Verify release signature and fingerprint
         run: |
           "$ANDROID_SDK_ROOT/build-tools/35.0.0/apksigner" verify --verbose --print-certs app/build/outputs/apk/release/app-release.apk
-          sha256sum app/build/outputs/apk/release/app-release.apk > app/build/outputs/apk/release/SHA256SUMS.txt
+          sha256sum app/build/outputs/apk/release/app-release.apk app/build/outputs/bundle/release/app-release.aab > app/build/outputs/apk/release/SHA256SUMS.txt
 
       - name: Remove private signing key
         if: always()
@@ -64,8 +66,9 @@ jobs:
       - name: Upload signed release APK
         uses: actions/upload-artifact@v4
         with:
-          name: RadioMaroc-Signed-Release-APK
+          name: RadioMaroc-7.2.7-Signed-Release
           path: |
             app/build/outputs/apk/release/app-release.apk
             app/build/outputs/apk/release/SHA256SUMS.txt
+            app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
