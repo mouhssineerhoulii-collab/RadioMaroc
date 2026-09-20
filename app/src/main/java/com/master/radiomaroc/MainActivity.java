@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 
     private final BroadcastReceiver stateReceiver=new BroadcastReceiver(){@Override public void onReceive(Context context,Intent intent){
         String state=intent.getStringExtra("state"),stationName=intent.getStringExtra("station");currentPlaying=intent.getBooleanExtra("playing",false);float liveLevel=intent.getFloatExtra("audio_level",0f);liveAudioLevel=liveLevel;if(playerVisualizer!=null)playerVisualizer.setAudioLevel(liveLevel,currentPlaying);if(state!=null)currentState=state;
-        if(stationName!=null&&!stationName.isEmpty()){currentStationName=stationName;nowPlaying.setText(stationName);Station s=findStation(stationName);if(s!=null)LogoLoader.load(s.logoUrl,s.name,playerLogo,R.drawable.ic_app);playerBox.setVisibility(View.VISIBLE);}
+        if(stationName!=null&&!stationName.isEmpty()){boolean stationChanged=!stationName.equals(currentStationName);currentStationName=stationName;nowPlaying.setText(stationName);if(stationChanged){Station s=findStation(stationName);if(s!=null)LogoLoader.load(s.logoUrl,s.name,playerLogo,R.drawable.ic_app);}playerBox.setVisibility(View.VISIBLE);}
         if(state!=null)status.setText(stateText(state));toggleButton.setText(currentPlaying?"Ⅱ":"▶");
         if((stationName==null||stationName.isEmpty())&&("stopped".equals(state)||currentStationName.isEmpty()))playerBox.setVisibility(View.GONE);
         updateStationPlaybackUi();
