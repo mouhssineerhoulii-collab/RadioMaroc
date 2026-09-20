@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
- <item><shape><gradient android:startColor="#E0B7AA8F" android:centerColor="#D8A99E88" android:endColor="#E0C0B49B" android:angle="45"/><stroke android:width="5dp" android:color="#30FFD76A"/><corners android:radius="32dp"/></shape></item>
- <item android:left="3dp" android:right="3dp" android:top="3dp" android:bottom="3dp"><shape><gradient android:startColor="#D6C3BBA9" android:centerColor="#D0AFA58F" android:endColor="#D8C8BEAA" android:angle="45"/><stroke android:width="1.7dp" android:color="#FFFFD66B"/><corners android:radius="29dp"/><padding android:left="10dp" android:top="10dp" android:right="10dp" android:bottom="10dp"/></shape></item>
+ <item><shape><solid android:color="#18FFFFFF"/><stroke android:width="4dp" android:color="#22FFD76A"/><corners android:radius="32dp"/></shape></item>
+ <item android:left="2dp" android:right="2dp" android:top="2dp" android:bottom="2dp"><shape><solid android:color="#20FFFFFF"/><stroke android:width="1.3dp" android:color="#FFFFD66B"/><corners android:radius="29dp"/><padding android:left="10dp" android:top="10dp" android:right="10dp" android:bottom="10dp"/></shape></item>
 </layer-list>
