@@ -42,12 +42,12 @@ public final class PlayerVisualizerView extends View {
         lastFrameNanos=now;
 
         // Smooth attack, deliberately slower release: no nervous 75 ms jumps.
-        float speed=targetLevel>displayLevel ? 5.2f : 2.6f;
+        float speed=targetLevel>displayLevel ? 11f : 4.8f;
         float alpha=1f-(float)Math.exp(-speed*dt);
         displayLevel += (targetLevel-displayLevel)*alpha;
 
-        paint.setStrokeWidth(Math.max(2f,w/12f));
-        final float[] shape={.54f,.78f,1f,.72f,.48f};
+        paint.setStrokeWidth(Math.max(2f,w/18f));
+        final float[] shape={.58f,.82f,1f,.74f,.91f,.68f,.50f};
         for(int i=0;i<5;i++){
             float x=w*(i+1)/6f;
             float energy=.14f + displayLevel*.78f;
