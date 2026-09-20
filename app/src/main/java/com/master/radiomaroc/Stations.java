@@ -23,7 +23,11 @@ public final class Stations {
  private static void addByName(List<Station> source,List<Station> result,String name){for(Station station:source)if(name.equals(station.name)&&!result.contains(station)){result.add(station);return;}}
  public static final List<Station> ALL=ordered(Arrays.asList(
   // إسلامية وقرآن
-  s("إذاعة محمد السادس للقرآن الكريم","القرآن الكريم والبرامج الدينية","Coran et programmes religieux","Quran and religious programs",H+"images/Mohamed%20VI.PNG","islamic","https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_mohammed_6/hls_snrt_radio/index.m3u8"),
+  s("إذاعة محمد السادس للقرآن الكريم","القرآن الكريم والبرامج الدينية","Coran et programmes religieux","Quran and religious programs",H+"images/Mohamed%20VI.PNG","quran","https://cdn.live.easybroadcast.io/live/radio_med_VI/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_mohammed_6/hls_snrt_radio/index.m3u8"),
+  s("عمر القزابري","مصحف ورش عن نافع • تشغيل متواصل","Coran Warsh • lecture continue","Warsh Quran • continuous playback","https://media.way2quran.com/imgs/omar-al-qazabri.jpg","quran","https://server9.mp3quran.net/omar_warsh/001.mp3"),
+  s("العيون الكوشي","مصحف ورش عن نافع • تشغيل متواصل","Coran Warsh • lecture continue","Warsh Quran • continuous playback","https://en.islamzoom.com/add/upload/files/picture_quran/full_size/laayoun-el-kouchi-129.jpg","quran","https://server11.mp3quran.net/koshi/001.mp3"),
+  s("هشام الهراز","مصحف ورش عن نافع • تشغيل متواصل","Coran Warsh • lecture continue","Warsh Quran • continuous playback","https://media.way2quran.com/imgs/hisham-al-haraz.jpg","quran","https://server16.mp3quran.net/H-Lharraz/Rewayat-Warsh-A-n-Nafi/001.mp3"),
+  s("عبد الرحمن بنموسى","مصحف ورش عن نافع • تشغيل متواصل","Coran Warsh • lecture continue","Warsh Quran • continuous playback","https://media.way2quran.com/imgs/abdel-rahman-benmoussa.jpg","quran","https://media.way2quran.com/abdel-rahman-benmoussa/warsh-an-nafi/001.mp3"),
   s("Medi 1 Soufi","صوفي ومديح","Soufi et chants spirituels","Sufi and spiritual music",M,"islamic","https://cdn.live.easybroadcast.io/medi1radio/Soufi"),
   // عمومية
   s("Radio Nationale","الإذاعة الوطنية المغربية","Radio publique nationale","National public radio",H+"images/radioNationale.PNG","public","https://cdn.live.easybroadcast.io/live/radio_nationale/playlist.m3u8?","https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/radio_idaa_watanya/hls_snrt_radio/index.m3u8"),
@@ -56,7 +60,7 @@ public final class Stations {
   s("France Maghreb 2","فرانس مغرب 2","France Maghreb 2","France Maghreb 2",G,"news","https://francemaghreb2.ice.infomaniak.ch/francemaghreb2-high.mp3"),
   s("Radio Mars","راديو مارس - الرياضة المغربية","Radio Mars - sport","Moroccan sports",H+"images/logo-radio-marsN-new%282%29.PNG","sports","https://radiomars.ice.infomaniak.ch/radiomars-128.mp3"),
   // متنوعة
-  s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information et culture","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://broadcast.ice.infomaniak.ch/aswat-high.mp3","https://aswat.ice.infomaniak.ch/aswat-high.mp3"),
+  s("Radio Aswat","أصوات - أخبار وثقافة وبرامج عامة","Information et culture","News, culture and general programs",H+"logo-aswat-HD-1111.jpg","general","https://broadcast.ice.infomaniak.ch/aswat-high.mp3","http://broadcast.ice.infomaniak.ch/aswat-high.mp3?.mp3","https://aswat.ice.infomaniak.ch/aswat-high.mp3"),
   s("MFM Radio","إم إف إم","MFM Radio","MFM Radio",H+"MFM%20Radio.jpg","general","https://a5.asurahosting.com:7980/radio.mp3","https://eu.stream4cast.com/proxy/mfmradio/stream"),
   s("Medradio","ميد راديو - مجتمع وحوار","Medradio","Talk radio",H+"images/logo%20med%20vf.PNG","general","https://medradio.ice.infomaniak.ch/medradio-128.mp3"),
   s("Medina FM","مدينة إف إم","Medina FM","Medina FM",H+"images/medina%20fm%20logo%20A.PNG","general","https://medinafm.ice.infomaniak.ch/medinafm-64.mp3","https://medinafm.ice.infomaniak.ch/medinafm-128.mp3"),
@@ -71,7 +75,7 @@ public final class Stations {
   s("Yabiladi Amazigh","يابلادي أمازيغ","Yabiladi Azawan Amazigh","Yabiladi Amazigh",G,"amazigh","https://radio.yabiladi.com:9002/stream.mp3"),
   s("Yabiladi Nayda","يابلادي نايدا","Yabiladi Nayda","Yabiladi Nayda",G,"music","https://radio.yabiladi.com:9102/stream.mp3"),
   // موسيقى
-  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://edge16.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","https://stream.bodkas.com/playlist?id=chadafmradio"),
+  s("Chada FM","شدى إف إم - موسيقى وبرامج مغربية","Musique marocaine","Moroccan music",H+"images/LogoCHADAFM.jpg","music","https://stream.bodkas.com/playlist?id=chadafmradio","https://stream.bodkas.com/playlist","https://edge16.vedge.infomaniak.com/livecast/ik:chadatv/manifest.m3u8","https://edge19.vedge.infomaniak.com/livecast/ik:chadatv/playlist.m3u8","http://broadcast.infomaniak.net/chadafm-high.mp3"),
   s("Hit Radio","هيت راديو","Hit Radio","Hit Radio",T,"music","https://hitradio-maroc.ice.infomaniak.ch/hitradio-maroc-128.mp3"),
   s("Hit Radio Classic","هيت راديو كلاسيك","Hit Radio Classic","Hit Radio Classic",T,"music","https://gold.ice.infomaniak.ch/gold-128.mp3"),
   s("Hit Radio Mgharba","هيت راديو مغاربة","Hit Radio Mgharba","Hit Radio Mgharba",T,"music","https://mgharba.ice.infomaniak.ch/mgharba-128.mp3"),
